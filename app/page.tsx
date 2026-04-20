@@ -4,9 +4,7 @@ import Industries from '@/components/Industries';
 import Demo from '@/components/Demo';
 import Pricing from '@/components/Pricing';
 import ApiPricing from '@/components/ApiPricing';
-import Uptime from '@/components/Uptime';
 import Footer from '@/components/Footer';
-import PromoPopup from '@/components/PromoPopup';
 
 export default function Home() {
   return (
@@ -17,9 +15,7 @@ export default function Home() {
       <Industries />
       <Pricing />
       <ApiPricing />
-      <Uptime />
       <Footer />
-      <PromoPopup />
     </main>
   );
 }

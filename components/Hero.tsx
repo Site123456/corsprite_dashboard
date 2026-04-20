@@ -72,13 +72,13 @@ export default function Hero() {
 
   return (
     <>
-      <section className="relative flex items-center justify-center pt-24 sm:pt-28 pb-8 sm:pb-10 px-5 sm:px-6 bg-white overflow-hidden min-h-[calc(100vh-60px)] lg:min-h-screen">
+      <section className="relative flex items-center justify-center pt-32 lg:pt-40 pb-16 lg:pb-24 px-5 sm:px-6 bg-[#FAFAFC] overflow-hidden border-b border-gray-100">
 
         {/* Subtle gradient orbs */}
         <div className="absolute top-[-200px] left-[-100px] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full bg-gradient-to-br from-purple-200/30 via-blue-100/20 to-transparent blur-3xl pointer-events-none" />
         <div className="absolute bottom-[-150px] right-[-100px] w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] rounded-full bg-gradient-to-tl from-emerald-200/25 via-cyan-100/15 to-transparent blur-3xl pointer-events-none" />
 
-        <div className="max-w-[1200px] mx-auto w-full grid lg:grid-cols-[1fr_440px] gap-8 lg:gap-12 items-center z-10 relative">
+        <div className="max-w-[1100px] mx-auto w-full grid lg:grid-cols-[1fr_400px] gap-10 lg:gap-14 items-center z-10 relative">
 
           {/* Left: Compact Minimalist Typography */}
           <div className="flex flex-col items-center text-center lg:items-start lg:text-left animate-fade-in-up">
@@ -86,20 +86,19 @@ export default function Hero() {
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Spatial Intelligence
             </span>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold tracking-tight mb-4 text-gray-900 leading-[1.08] max-w-full">
-              <span className="bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-400 bg-clip-text text-transparent inline-block pb-0.5">Corsprite.</span><br />
-              Conceptions,<br />
-              Redefined.
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-[4rem] font-bold tracking-[-0.03em] mb-4 text-gray-900 leading-[1.05] max-w-full drop-shadow-sm">
+              <span className="bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-400 bg-clip-text text-transparent inline-block pb-0.5">Corsprite</span>,<br />
+              2D & 3D.
             </h1>
 
             <p className="text-[13px] sm:text-[15px] text-gray-500 max-w-sm mx-auto lg:mx-0 mb-6 leading-relaxed font-medium">
               Extract structural intelligence from raw point clouds natively. Remodel layouts and generate accurate CAD floor plans instantly.
             </p>
 
-            <div className="flex flex-col items-center lg:items-start gap-2.5 w-full max-w-[380px]">
+            <div className="flex flex-col items-center lg:items-start gap-4 w-full max-w-[380px]">
               {/* Primary CTA row */}
-              <div className="flex items-center gap-2 w-full">
-                <button className="flex-1 px-4 py-2.5 sm:py-3 rounded-xl bg-gray-900 hover:bg-black text-white transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 group">
+              <div className="flex items-center gap-3 w-full">
+                <button className="flex-1 px-5 py-3 rounded-[1rem] bg-gray-900 hover:bg-black text-white transition-all shadow-[0_10px_20px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 flex items-center justify-center gap-2.5 group font-semibold">
                   {osData.name.includes('Windows') && (
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
                   )}
@@ -112,7 +111,7 @@ export default function Hero() {
                   <span className="font-bold text-[11px] sm:text-[12px] tracking-tight">{osData.name}</span>
                 </button>
 
-                <button onClick={() => setIsOTPModalOpen(true)} className="px-4 py-2.5 sm:py-3 rounded-xl bg-white border border-gray-200 hover:border-gray-300 text-gray-700 transition-all flex items-center justify-center gap-2 group shadow-sm hover:shadow-md">
+                <button onClick={() => setIsOTPModalOpen(true)} className="px-5 py-3 rounded-[1rem] bg-white border border-gray-200/80 hover:border-gray-300 hover:bg-gray-50 text-gray-800 transition-all flex items-center justify-center gap-2 group shadow-sm hover:shadow-[0_10px_20px_rgba(0,0,0,0.05)] hover:-translate-y-0.5 font-semibold">
                   <KeyRound size={13} className="text-gray-400 group-hover:text-gray-900 transition-colors" />
                   <span className="font-bold text-[11px] sm:text-[12px] tracking-tight whitespace-nowrap">View Space</span>
                 </button>
@@ -154,16 +153,16 @@ export default function Hero() {
             <div className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-none aspect-[4/4.5] sm:aspect-[4/4.8] transform-style-3d" style={{ animation: 'hyperFloat 10s ease-in-out infinite' }}>
 
               {/* Core Render Frame */}
-              <div className="absolute inset-0 bg-white shadow-[0_30px_80px_-20px_rgba(0,0,0,0.08)] rounded-[1.5rem] sm:rounded-[2rem] border border-gray-100 overflow-hidden flex flex-col p-1.5 sm:p-2">
+              <div className="absolute inset-0 bg-white/60 backdrop-blur-3xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] rounded-[2rem] border border-white overflow-hidden flex flex-col p-2">
 
                 {/* Image Window */}
                 <div className="flex-1 bg-gray-100 rounded-[1.2rem] sm:rounded-[1.8rem] border border-gray-100/50 shadow-inner relative flex items-center justify-center overflow-hidden">
 
                   <div className="absolute inset-0 w-full h-full">
-                    <Image src="/room_demo_banner.png" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'base' ? 'opacity-100' : 'opacity-0'}`} alt="Scan" />
-                    <Image src="/room_demo_banner_loading.png" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'loading' ? 'opacity-100' : 'opacity-0'}`} alt="Load" />
-                    <Image src="/room_demo_banner_removed.png" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'removed' ? 'opacity-100' : 'opacity-0'}`} alt="Remove" />
-                    <Image src="/room_demo_banner_removed_then_green.png" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'green' ? 'opacity-100' : 'opacity-0'}`} alt="Green" />
+                    <Image priority src="/room_demo_banner.png" width={500} height={500} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'base' ? 'opacity-100' : 'opacity-0'}`} alt="Scan" />
+                    <Image src="/room_demo_banner_loading.png" width={500} height={500} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'loading' ? 'opacity-100' : 'opacity-0'}`} alt="Load" />
+                    <Image src="/room_demo_banner_removed.png" width={500} height={500} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'removed' ? 'opacity-100' : 'opacity-0'}`} alt="Remove" />
+                    <Image src="/room_demo_banner_removed_then_green.png" width={500} height={500} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'green' ? 'opacity-100' : 'opacity-0'}`} alt="Green" />
                   </div>
 
                   {/* Top Floating Status */}

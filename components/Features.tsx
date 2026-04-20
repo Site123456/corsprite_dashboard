@@ -29,14 +29,17 @@ export default function Features() {
             return (
               <div 
                 key={idx} 
-                className="bg-white border border-gray-200/80 p-6 flex flex-col group hover:border-gray-300 transition-colors duration-300 animate-fade-in-up rounded-xl" 
+                className="bg-white border border-gray-100 p-7 flex flex-col group hover:-translate-y-1 hover:border-brand/20 transition-all duration-500 animate-fade-in-up rounded-[1.5rem] shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden isolate" 
                 style={{ animationDelay: `${idx * 50}ms` }}
               >
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-5 bg-gray-50 text-gray-500 group-hover:text-brand border border-gray-100 transition-colors">
+                {/* Subtle hover gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-brand/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" />
+
+                <div className="w-11 h-11 rounded-[12px] flex items-center justify-center mb-6 bg-gray-50 text-gray-500 group-hover:bg-brand/5 group-hover:text-brand border border-gray-100 group-hover:border-brand/10 transition-all duration-300 group-hover:scale-110 shadow-sm">
                   <Icon className="w-5 h-5" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-[14px] font-bold text-gray-900 mb-2 tracking-tight">{feature.title}</h3>
-                <p className="text-[13px] text-gray-500 leading-[1.5] font-medium">{feature.desc}</p>
+                <h3 className="text-[15px] font-bold text-gray-900 mb-2.5 tracking-tight group-hover:text-brand transition-colors">{feature.title}</h3>
+                <p className="text-[13px] text-gray-500 leading-relaxed font-medium">{feature.desc}</p>
               </div>
             );
           })}

@@ -9,7 +9,7 @@ const tiers = [
     idealFor: "Just exploring",
     priceMonthly: "€0",
     priceAnnual: "€0",
-    desc: "Explore core capabilities. No credit card required.",
+    desc: "All necessary features but limited.",
     cumulativeText: null,
     coreFeatures: [
       "1 Seat (Strict maximum)",
@@ -34,7 +34,7 @@ const tiers = [
     idealFor: "Small Businesses",
     priceMonthly: "€12.99",
     priceAnnual: "€9.99",
-    desc: "Consistent workflows optimized for physical portfolios.",
+    desc: "All necessary features at a good access level.",
     cumulativeText: "Everything in Free, plus:",
     coreFeatures: [
       "1 Seat (Strict maximum)",
@@ -54,7 +54,7 @@ const tiers = [
       "Automated Light Estimation Tracking",
       "Basic Cloud Rendering Allocation"
     ],
-    cta: "Get Started",
+    cta: "Start 7-Day Trial",
     highlight: false
   },
   {
@@ -62,15 +62,16 @@ const tiers = [
     idealFor: "Growing Teams",
     priceMonthly: "€64.99",
     priceAnnual: "€49.99",
-    desc: "Advanced tools and unlimited exports for scaling teams.",
+    desc: "All access and beyond for serious professionals.",
     cumulativeText: "Everything in Starter, plus:",
     coreFeatures: [
-      "3 Seats included (Extra: €20/seat)",
+      "2 Seats included (Extra: €60/seat)",
       "100 master scans / mo",
       "Unlimited daily exports",
       "Automated Object Removal"
     ],
     expandedFeatures: [
+      "Meeting Features & Interactive Mesh Presentations",
       "Semantic Defect Segmentation AI",
       "Advanced BIM (.IFC) Export formatting",
       "Direct 3D Measurement Extraction Matrix",
@@ -81,7 +82,7 @@ const tiers = [
       "Direct Revit / AutoCAD Plugins",
       "Custom Model Tagging Architecture"
     ],
-    cta: "Start 14-Day Trial",
+    cta: "Get Started",
     highlight: true
   },
   {
@@ -89,15 +90,16 @@ const tiers = [
     idealFor: "10+ user large teams",
     priceMonthly: "€129.99",
     priceAnnual: "€99.99",
-    desc: "Full-scale deployment with white-labeling. Extra seats at €10/seat.",
+    desc: "All pro features and a powerful teaming system.",
     cumulativeText: "Everything in Pro, plus:",
     coreFeatures: [
-      "10 Seats included (Extra: €10/seat)",
+      "6 Seats included (Extra: €20/seat)",
       "Unlimited master processing volume",
       "Full Portal White-Labeling",
       "Custom Hosted AI Models"
     ],
     expandedFeatures: [
+      "Meeting Features & Interactive Mesh Presentations",
       "Bespoke Identity Single Sign-On (SAML/SSO)",
       "Raw Uncompressed Textures Server Access",
       "Dedicated Enterprise Account Manager",
@@ -109,7 +111,7 @@ const tiers = [
       "Multi-Region Geographic Data Pinning",
       "Custom Machine Learning Engine Training"
     ],
-    cta: "Contact Sales",
+    cta: "Start 14-Day Trial",
     highlight: false
   }
 ];
@@ -158,11 +160,13 @@ export default function Pricing() {
               return (
                 <div
                   key={idx}
-                  className={`relative flex flex-col p-6 lg:p-7 rounded-2xl transition-all duration-300 h-full ${tier.highlight
-                      ? 'bg-white border-2 border-brand/80 shadow-[0_15px_40px_-10px_rgba(58,123,255,0.15)] ring-1 ring-brand/5 z-10 xl:scale-[1.02]'
-                      : 'bg-white border border-gray-200/80 hover:border-gray-300 shadow-sm hover:shadow-md'
+                  className={`relative flex flex-col p-6 lg:p-8 rounded-[2rem] transition-all duration-500 h-full overflow-hidden isolate ${tier.highlight
+                      ? 'bg-white border-2 border-brand/80 shadow-[0_20px_50px_-15px_rgba(58,123,255,0.25)] ring-1 ring-brand/5 z-10 xl:scale-[1.02] hover:xl:scale-[1.04]'
+                      : 'bg-white border border-gray-100 hover:border-brand/30 shadow-sm hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.08)] hover:-translate-y-2'
                     }`}
                 >
+                  {/* Background base gradient for visual depth on all cards */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-gray-50/30 to-transparent -z-10 pointer-events-none" />
                   {tier.highlight && (
                     <div className="absolute -top-3 left-6 bg-brand text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-sm">
                       Most Popular
