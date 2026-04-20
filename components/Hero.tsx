@@ -2,9 +2,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { MonitorDown, Smartphone, LayoutDashboard, KeyRound, ArrowRight, Loader2, Check, X, ShieldAlert } from 'lucide-react';
+import { useRelease } from '@/context/ReleaseContext';
 
 export default function Hero() {
+  const { onOpenRelease } = useRelease();
   const [typedText, setTypedText] = useState("");
   const [imageState, setImageState] = useState<'base' | 'loading' | 'removed' | 'green'>('base');
   const [chatSteps, setChatSteps] = useState<{ role: 'user' | 'ai', text: string }[]>([]);
@@ -15,6 +18,28 @@ export default function Hero() {
   const [isOTPModalOpen, setIsOTPModalOpen] = useState(false);
   const [otpCode, setOtpCode] = useState(['', '', '', '', '', '']);
   const otpInputs = useRef<(HTMLInputElement | null)[]>([]);
+
+  // 3D Card logic
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+  
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    x.set(mouseX / rect.width - 0.5);
+    y.set(mouseY / rect.height - 0.5);
+  };
+  
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   useEffect(() => {
     const ua = window.navigator.userAgent.toLowerCase();
@@ -81,7 +106,12 @@ export default function Hero() {
         <div className="max-w-[1100px] mx-auto w-full grid lg:grid-cols-[1fr_400px] gap-10 lg:gap-14 items-center z-10 relative">
 
           {/* Left: Compact Minimalist Typography */}
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left animate-fade-in-up">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
+            className="flex flex-col items-center text-center lg:items-start lg:text-left"
+          >
             <span className="text-[9px] sm:text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-4 flex items-center gap-2 px-3 py-1 bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-full shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Spatial Intelligence
             </span>
@@ -98,7 +128,7 @@ export default function Hero() {
             <div className="flex flex-col items-center lg:items-start gap-4 w-full max-w-[380px]">
               {/* Primary CTA row */}
               <div className="flex items-center gap-3 w-full">
-                <button className="flex-1 px-5 py-3 rounded-[1rem] bg-gray-900 hover:bg-black text-white transition-all shadow-[0_10px_20px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 flex items-center justify-center gap-2.5 group font-semibold">
+                <button onClick={onOpenRelease} className="flex-1 px-5 py-3 rounded-[1rem] bg-gray-900 hover:bg-black text-white transition-all shadow-[0_10px_20px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 flex items-center justify-center gap-2.5 group font-semibold">
                   {osData.name.includes('Windows') && (
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
                   )}
@@ -146,14 +176,22 @@ export default function Hero() {
                 )}
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right: Interactive Demo Card — visible on all breakpoints */}
           <div className="flex justify-center lg:justify-end perspective-1000 mt-4 lg:mt-0">
-            <div className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-none aspect-[4/4.5] sm:aspect-[4/4.8] transform-style-3d" style={{ animation: 'hyperFloat 10s ease-in-out infinite' }}>
+            <motion.div 
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              style={{ rotateX, rotateY }}
+              initial={{ opacity: 0, scale: 0.95, rotateY: -10 }}
+              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+              transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] as const }}
+              className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-none aspect-[4/4.5] sm:aspect-[4/4.8] transform-style-3d group cursor-pointer"
+            >
 
               {/* Core Render Frame */}
-              <div className="absolute inset-0 bg-white/60 backdrop-blur-3xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] rounded-[2rem] border border-white overflow-hidden flex flex-col p-2">
+              <div className="absolute inset-0 bg-white/40 backdrop-blur-3xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] rounded-[2rem] border border-white/80 overflow-hidden flex flex-col p-2 transform-style-3d group-hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.2)] transition-shadow duration-500 glass-card">
 
                 {/* Image Window */}
                 <div className="flex-1 bg-gray-100 rounded-[1.2rem] sm:rounded-[1.8rem] border border-gray-100/50 shadow-inner relative flex items-center justify-center overflow-hidden">
@@ -193,7 +231,7 @@ export default function Hero() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>

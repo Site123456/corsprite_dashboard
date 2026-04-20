@@ -36,20 +36,44 @@
 }
 
 @layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
   .glass {
-    @apply bg-white/60 backdrop-blur-2xl border border-white shadow-[0_4px_30px_rgba(0,0,0,0.03)];
+    @apply bg-white/50 backdrop-blur-[24px] border border-white/80 shadow-[0_8px_32px_rgba(0,0,0,0.04)];
   }
   .glass-card {
-    @apply bg-white/40 backdrop-blur-xl border border-white/80 shadow-[0_8px_32px_0_rgba(0,0,0,0.06)];
+    @apply bg-white/40 backdrop-blur-xl border border-white/60 shadow-[0_12px_40px_0_rgba(0,0,0,0.05)];
   }
   .glass-hover {
-    @apply hover:bg-white/80 hover:border-white transition-all duration-500 hover:shadow-[0_12px_40px_0_rgba(0,0,0,0.08)];
+    @apply hover:bg-white/80 hover:border-white transition-all duration-500 hover:shadow-[0_16px_50px_0_rgba(0,0,0,0.08)];
   }
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-br from-gray-900 via-gray-700 to-gray-500;
   }
   .text-gradient-accent {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-brand via-purple-500 to-emerald-400;
+  }
+  .translate-z-10 {
+    transform: translateZ(10px);
+  }
+  .translate-z-20 {
+    transform: translateZ(20px);
+  }
+  .translate-z-30 {
+    transform: translateZ(30px);
+  }
+  .translate-z-40 {
+    transform: translateZ(40px);
+  }
+  .translate-z-50 {
+    transform: translateZ(50px);
   }
 }
 

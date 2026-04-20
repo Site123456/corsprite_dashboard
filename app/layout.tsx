@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 
 import Header from "@/components/Header";
 import ChatWidget from "@/components/ChatWidget";
+import { ReleaseProvider } from "@/context/ReleaseContext";
 
 export default function RootLayout({
   children,
@@ -31,9 +32,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Header />
-        {children}
-        <ChatWidget />
+        <ReleaseProvider>
+          <Header />
+          {children}
+          <ChatWidget />
+        </ReleaseProvider>
       </body>
     </html>
   );
