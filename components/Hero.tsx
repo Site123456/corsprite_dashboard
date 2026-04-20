@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { MonitorDown, Smartphone, LayoutDashboard, KeyRound, ArrowRight, Loader2, Check, X, ShieldAlert } from 'lucide-react';
+import { MonitorDown, Smartphone, LayoutDashboard, KeyRound, ArrowRight, Loader2, Check, X, ShieldAlert, Sparkles, Play } from 'lucide-react';
 import { useRelease } from '@/context/ReleaseContext';
 
 export default function Hero() {
@@ -22,11 +22,11 @@ export default function Hero() {
   // 3D Card logic
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+  const mouseXSpring = useSpring(x, { stiffness: 200, damping: 25 });
+  const mouseYSpring = useSpring(y, { stiffness: 200, damping: 25 });
   
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["8deg", "-8deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -95,195 +95,308 @@ export default function Hero() {
     if (val && index < 5 && otpInputs.current[index + 1]) otpInputs.current[index + 1]?.focus();
   };
 
+  const platformButtons = [
+    { key: 'windows', label: 'Windows', icon: (
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
+    )},
+    { key: 'ios', label: 'iOS', icon: (
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
+    )},
+    { key: 'android', label: 'Android', icon: (
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 11.5c0-.3 0-.5-.1-.8l1.7-1-1-1.7-1.7 1c-.5-.4-1.1-.7-1.7-.8V6h-2v2.1c-.6.2-1.2.5-1.7.8l-1.7-1-1 1.7 1.7 1c-.1.3-.1.5-.1.8s0 .5.1.8l-1.7 1 1 1.7 1.7-1c.5.4 1.1.7 1.7.8V18h2v-2.1c.6-.2 1.2-.5 1.7-.8l1.7 1 1-1.7-1.7-1c.1-.3.1-.5.1-.8zm-3.6 2c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM7 2l-1 1 2.6 2.6C6.3 7.1 5 9.1 5 11.5c0 3.6 2.4 6.5 5.7 7.3L7 22l1 1 4-4-4-4-1 1 2.5 2.5c-2.5-.7-4.5-3-4.5-5.9 0-2 1-3.7 2.5-4.8L7 2z" /></svg>
+    )},
+    { key: 'web', label: 'Web', icon: <LayoutDashboard size={12} /> },
+  ];
+
   return (
     <>
-      <section className="relative flex items-center justify-center pt-32 lg:pt-40 pb-16 lg:pb-24 px-5 sm:px-6 bg-[#FAFAFC] overflow-hidden border-b border-gray-100">
+      <section className="relative min-h-[100dvh] flex items-center justify-center px-5 sm:px-6 overflow-hidden bg-white">
 
-        {/* Subtle gradient orbs */}
-        <div className="absolute top-[-200px] left-[-100px] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full bg-gradient-to-br from-purple-200/30 via-blue-100/20 to-transparent blur-3xl pointer-events-none" />
-        <div className="absolute bottom-[-150px] right-[-100px] w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] rounded-full bg-gradient-to-tl from-emerald-200/25 via-cyan-100/15 to-transparent blur-3xl pointer-events-none" />
+        {/* ── Ambient Background ── */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Ultra-subtle grid */}
+          <div className="absolute inset-0 opacity-[0.03]" style={{
+            backgroundImage: 'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)',
+            backgroundSize: '64px 64px'
+          }} />
+          
+          {/* Scanning Beam Effect */}
+          <motion.div
+            animate={{
+              top: ['-20%', '120%'],
+              opacity: [0, 0.3, 0]
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute left-0 right-0 h-[100px] bg-gradient-to-b from-brand/0 via-brand/10 to-brand/0 -skew-y-12 z-0"
+          />
 
-        <div className="max-w-[1100px] mx-auto w-full grid lg:grid-cols-[1fr_400px] gap-10 lg:gap-14 items-center z-10 relative">
+          {/* Gradient orbs — very muted */}
+          <div className="absolute top-[-15%] left-[-8%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-blue-200/20 via-purple-100/10 to-transparent blur-[120px]" />
+          <div className="absolute bottom-[-10%] right-[-5%] w-[550px] h-[550px] rounded-full bg-gradient-to-tl from-emerald-200/15 via-cyan-100/10 to-transparent blur-[120px]" />
+          
+          {/* Floating 'Data Points' */}
+          {[...Array(6)].map((_, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0 }}
+              animate={{ 
+                opacity: [0, 0.4, 0],
+                y: [0, 20 * (i % 2 ? 1 : -1), 0],
+                x: [0, 10 * (i % 3 ? 1 : -1), 0]
+              }}
+              transition={{
+                duration: 5 + i,
+                repeat: Infinity,
+                delay: i * 0.8
+              }}
+              className="absolute w-1 h-1 rounded-full bg-brand/30"
+              style={{
+                top: `${20 + i * 12}%`,
+                left: `${15 + i * 14}%`
+              }}
+            />
+          ))}
 
-          {/* Left: Compact Minimalist Typography */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
+          {/* Top fade for header blending */}
+          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white to-transparent" />
+        </div>
+
+
+        <div className="relative max-w-[1200px] mx-auto w-full grid lg:grid-cols-[1fr_420px] gap-12 lg:gap-16 items-center py-28 lg:py-0">
+
+          {/* ═══ Left Column: Copy ═══ */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
-            className="flex flex-col items-center text-center lg:items-start lg:text-left"
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center text-center lg:items-start lg:text-left max-w-[560px] mx-auto lg:mx-0"
           >
-            <span className="text-[9px] sm:text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-4 flex items-center gap-2 px-3 py-1 bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-full shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Spatial Intelligence
-            </span>
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 rounded-full bg-gray-50 border border-gray-200/60 text-gray-500"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span className="text-[11px] font-semibold tracking-wide uppercase">Spatial Intelligence</span>
+            </motion.div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-[4rem] font-bold tracking-[-0.03em] mb-4 text-gray-900 leading-[1.05] max-w-full drop-shadow-sm">
-              <span className="bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-400 bg-clip-text text-transparent inline-block pb-0.5">Corsprite</span>,<br />
-              2D & 3D.
+            {/* Headline */}
+            <h1 className="text-[2.5rem] sm:text-[3.2rem] lg:text-[3.8rem] xl:text-[4.2rem] font-bold tracking-[-0.035em] leading-[1.05] mb-5 text-gray-900">
+              Your space,{' '}
+              <span className="relative inline-block">
+                <span className="bg-gradient-to-r from-[#3A7BFF] via-[#8B5CF6] to-[#10B981] bg-clip-text text-transparent">
+                  understood
+                </span>
+                {/* Underline accent */}
+                <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 200 8" fill="none" preserveAspectRatio="none">
+                  <path d="M1 5.5Q50 1 100 4.5T199 3" stroke="url(#grad)" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+                  <defs><linearGradient id="grad" x1="0" x2="200" y1="0" y2="0" gradientUnits="userSpaceOnUse"><stop stopColor="#3A7BFF" /><stop offset="0.5" stopColor="#8B5CF6" /><stop offset="1" stopColor="#10B981" /></linearGradient></defs>
+                </svg>
+              </span>
+              .
             </h1>
 
-            <p className="text-[13px] sm:text-[15px] text-gray-500 max-w-sm mx-auto lg:mx-0 mb-6 leading-relaxed font-medium">
-              Extract structural intelligence from raw point clouds natively. Remodel layouts and generate accurate CAD floor plans instantly.
+            {/* Subheadline */}
+            <p className="text-[14px] sm:text-[16px] text-gray-400 max-w-[440px] leading-relaxed font-medium mb-8">
+              Extract structural intelligence from raw scans. Generate CAD-ready floor plans, remodel layouts, and chat with your 3D spaces — all from a single capture.
             </p>
 
-            <div className="flex flex-col items-center lg:items-start gap-4 w-full max-w-[380px]">
-              {/* Primary CTA row */}
-              <div className="flex items-center gap-3 w-full">
-                <button onClick={onOpenRelease} className="flex-1 px-5 py-3 rounded-[1rem] bg-gray-900 hover:bg-black text-white transition-all shadow-[0_10px_20px_rgba(0,0,0,0.08)] hover:shadow-[0_15px_30px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 flex items-center justify-center gap-2.5 group font-semibold">
-                  {osData.name.includes('Windows') && (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
-                  )}
-                  {osData.name.includes('App Store') && (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
-                  )}
-                  {osData.name.includes('Google Play') && (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M3.18 23.67c-.37-.2-.63-.55-.63-.97V1.3c0-.42.26-.77.63-.97l11.83 11.67L3.18 23.67zM15.82 12L5 1.56 17.64 8.4l-1.82 3.6zm2.36-1.22L20.8 12l-2.62 1.22L16.5 12l1.68-1.22zM5 22.44l12.64-6.84-1.82-3.6L5 22.44z" /></svg>
-                  )}
-                  <span className="font-bold text-[11px] sm:text-[12px] tracking-tight">{osData.name}</span>
-                </button>
+            {/* CTA Row */}
+            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 w-full sm:w-auto">
+              <button
+                onClick={onOpenRelease}
+                className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gray-900 text-white text-[13px] font-semibold tracking-[-0.01em] transition-all duration-300 hover:bg-black hover:shadow-xl hover:shadow-gray-900/15 active:scale-[0.97] overflow-hidden"
+              >
+                {/* shine effect */}
+                <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                {osData.platform === 'windows' && (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="opacity-70"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
+                )}
+                {osData.platform === 'ios' && (
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="opacity-70"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
+                )}
+                <span className="relative">{osData.name}</span>
+                <ArrowRight size={14} className="relative opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+              </button>
 
-                <button onClick={() => setIsOTPModalOpen(true)} className="px-5 py-3 rounded-[1rem] bg-white border border-gray-200/80 hover:border-gray-300 hover:bg-gray-50 text-gray-800 transition-all flex items-center justify-center gap-2 group shadow-sm hover:shadow-[0_10px_20px_rgba(0,0,0,0.05)] hover:-translate-y-0.5 font-semibold">
-                  <KeyRound size={13} className="text-gray-400 group-hover:text-gray-900 transition-colors" />
-                  <span className="font-bold text-[11px] sm:text-[12px] tracking-tight whitespace-nowrap">View Space</span>
-                </button>
-              </div>
+              <button
+                onClick={() => setIsOTPModalOpen(true)}
+                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white border border-gray-200 hover:border-gray-300 text-gray-700 text-[13px] font-semibold transition-all duration-300 hover:shadow-md hover:shadow-gray-100 active:scale-[0.97]"
+              >
+                <KeyRound size={14} className="text-gray-400 group-hover:text-gray-600 transition-colors" />
+                View Space
+              </button>
+            </div>
 
-              {/* All platforms row */}
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="text-[9px] sm:text-[10px] font-semibold text-gray-400 mr-0.5">Also on</span>
-                {osData.platform !== 'windows' && (
-                  <a href="#" className="flex items-center gap-1 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 transition-all group" title="Windows">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="text-gray-400 group-hover:text-gray-700 transition-colors"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
-                    <span className="text-[9px] sm:text-[10px] font-bold text-gray-400 group-hover:text-gray-700 transition-colors">Windows</span>
-                  </a>
-                )}
-                {osData.platform !== 'ios' && (
-                  <a href="#" className="flex items-center gap-1 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 transition-all group" title="iOS">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="text-gray-400 group-hover:text-gray-700 transition-colors"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
-                    <span className="text-[9px] sm:text-[10px] font-bold text-gray-400 group-hover:text-gray-700 transition-colors">iOS</span>
-                  </a>
-                )}
-                {osData.platform !== 'android' && (
-                  <a href="#" className="flex items-center gap-1 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 transition-all group" title="Android">
-                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="text-gray-400 group-hover:text-gray-700 transition-colors"><path d="M17.6 11.5c0-.3 0-.5-.1-.8l1.7-1-1-1.7-1.7 1c-.5-.4-1.1-.7-1.7-.8V6h-2v2.1c-.6.2-1.2.5-1.7.8l-1.7-1-1 1.7 1.7 1c-.1.3-.1.5-.1.8s0 .5.1.8l-1.7 1 1 1.7 1.7-1c.5.4 1.1.7 1.7.8V18h2v-2.1c.6-.2 1.2-.5 1.7-.8l1.7 1 1-1.7-1.7-1c.1-.3.1-.5.1-.8zm-3.6 2c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM7 2l-1 1 2.6 2.6C6.3 7.1 5 9.1 5 11.5c0 3.6 2.4 6.5 5.7 7.3L7 22l1 1 4-4-4-4-1 1 2.5 2.5c-2.5-.7-4.5-3-4.5-5.9 0-2 1-3.7 2.5-4.8L7 2z" /></svg>
-                    <span className="text-[9px] sm:text-[10px] font-bold text-gray-400 group-hover:text-gray-700 transition-colors">Android</span>
-                  </a>
-                )}
-                {osData.platform !== 'web' && (
-                  <a href="#" className="flex items-center gap-1 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 transition-all group" title="Web App">
-                    <LayoutDashboard size={11} className="text-gray-400 group-hover:text-gray-700 transition-colors" />
-                    <span className="text-[9px] sm:text-[10px] font-bold text-gray-400 group-hover:text-gray-700 transition-colors">Web</span>
-                  </a>
-                )}
-              </div>
+            {/* Platform pills */}
+            <div className="flex items-center gap-1.5 mt-6">
+              <span className="text-[10px] text-gray-300 font-medium mr-1">Also on</span>
+              {platformButtons.filter(p => p.key !== osData.platform).map(p => (
+                <a
+                  key={p.key}
+                  href="#"
+                  className="flex items-center gap-1 px-2 py-1 rounded-md text-gray-300 hover:text-gray-500 hover:bg-gray-50 transition-all text-[10px] font-semibold"
+                  title={p.label}
+                >
+                  {p.icon}
+                  <span className="hidden sm:inline">{p.label}</span>
+                </a>
+              ))}
             </div>
           </motion.div>
 
-          {/* Right: Interactive Demo Card — visible on all breakpoints */}
-          <div className="flex justify-center lg:justify-end perspective-1000 mt-4 lg:mt-0">
-            <motion.div 
+          {/* ═══ Right Column: Interactive Demo Card ═══ */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="flex justify-center lg:justify-end perspective-1000"
+          >
+            <motion.div
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
               style={{ rotateX, rotateY }}
-              initial={{ opacity: 0, scale: 0.95, rotateY: -10 }}
-              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-              transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] as const }}
-              className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-none aspect-[4/4.5] sm:aspect-[4/4.8] transform-style-3d group cursor-pointer"
+              className="relative w-full max-w-[360px] sm:max-w-[400px] lg:max-w-[420px] aspect-[3/3.6] transform-style-3d cursor-pointer"
             >
-
-              {/* Core Render Frame */}
-              <div className="absolute inset-0 bg-white/40 backdrop-blur-3xl shadow-[0_40px_100px_-20px_rgba(0,0,0,0.12)] rounded-[2rem] border border-white/80 overflow-hidden flex flex-col p-2 transform-style-3d group-hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.2)] transition-shadow duration-500 glass-card">
+              {/* Card shell */}
+              <div className="absolute inset-0 rounded-[1.5rem] overflow-hidden shadow-[0_30px_80px_-15px_rgba(0,0,0,0.15)] border border-gray-200/50 bg-white/60 backdrop-blur-2xl flex flex-col p-1.5 transition-shadow duration-500 hover:shadow-[0_40px_100px_-15px_rgba(0,0,0,0.2)]">
 
                 {/* Image Window */}
-                <div className="flex-1 bg-gray-100 rounded-[1.2rem] sm:rounded-[1.8rem] border border-gray-100/50 shadow-inner relative flex items-center justify-center overflow-hidden">
+                <div className="flex-1 rounded-[1.1rem] bg-gray-100 relative overflow-hidden border border-gray-100/50">
 
+                  {/* Image stack */}
                   <div className="absolute inset-0 w-full h-full">
-                    <Image priority src="/room_demo_banner.png" width={500} height={500} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'base' ? 'opacity-100' : 'opacity-0'}`} alt="Scan" />
-                    <Image src="/room_demo_banner_loading.png" width={500} height={500} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'loading' ? 'opacity-100' : 'opacity-0'}`} alt="Load" />
-                    <Image src="/room_demo_banner_removed.png" width={500} height={500} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'removed' ? 'opacity-100' : 'opacity-0'}`} alt="Remove" />
-                    <Image src="/room_demo_banner_removed_then_green.png" width={500} height={500} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'green' ? 'opacity-100' : 'opacity-0'}`} alt="Green" />
+                    <Image priority src="/room_demo_banner.png" width={500} height={500} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${imageState === 'base' ? 'opacity-100' : 'opacity-0'}`} alt="Scan" />
+                    <Image src="/room_demo_banner_loading.png" width={500} height={500} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${imageState === 'loading' ? 'opacity-100' : 'opacity-0'}`} alt="Load" />
+                    <Image src="/room_demo_banner_removed.png" width={500} height={500} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${imageState === 'removed' ? 'opacity-100' : 'opacity-0'}`} alt="Remove" />
+                    <Image src="/room_demo_banner_removed_then_green.png" width={500} height={500} className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${imageState === 'green' ? 'opacity-100' : 'opacity-0'}`} alt="Green" />
                   </div>
 
-                  {/* Top Floating Status */}
-                  <div className="absolute top-3 sm:top-5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 bg-white/95 backdrop-blur-xl rounded-full px-3 sm:px-4 py-1.5 sm:py-2 shadow-sm border border-gray-200 z-20">
-                    {(imageState === 'loading' || showAIProcessing) && <Loader2 size={10} className="animate-spin text-brand" />}
-                    <span className={`text-[8px] sm:text-[10px] uppercase font-bold tracking-widest ${imageState === 'green' ? 'text-emerald-500' : 'text-gray-900'}`}>
-                      {imageState === 'base' ? '01. Raw Data' : (imageState === 'loading' || imageState === 'removed' ? '02. Modifying Space' : '03. Render Final')}
-                    </span>
+                  {/* Floating Step Indicator */}
+                  <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20">
+                    <div className="flex items-center gap-2 bg-white/90 backdrop-blur-xl rounded-full px-3 py-1.5 shadow-sm border border-white/80">
+                      {(imageState === 'loading' || showAIProcessing) && <Loader2 size={10} className="animate-spin text-brand" />}
+                      {imageState === 'green' && <Check size={10} className="text-emerald-500" />}
+                      <span className={`text-[9px] uppercase font-bold tracking-widest ${imageState === 'green' ? 'text-emerald-600' : 'text-gray-600'}`}>
+                        {imageState === 'base' ? 'Raw scan' : imageState === 'loading' ? 'Processing' : imageState === 'removed' ? 'Objects removed' : 'Render complete'}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Chat bubbles */}
-                  <div className="absolute bottom-3 sm:bottom-5 left-3 sm:left-5 right-3 sm:right-5 flex flex-col gap-1.5 sm:gap-2.5 z-20">
+                  {/* Chat overlay */}
+                  <div className="absolute bottom-3 left-3 right-3 flex flex-col gap-1.5 z-20">
                     {chatSteps.map((step, idx) => (
-                      <div key={idx} className={`animate-fade-in-up text-[11px] sm:text-[13px] font-semibold px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl max-w-[85%] leading-relaxed shadow-sm backdrop-blur-2xl ${step.role === 'user'
-                        ? 'bg-gray-900/90 text-white self-end rounded-br-sm'
-                        : `self-start rounded-tl-[4px] border ${imageState === 'green' && idx === chatSteps.length - 1 ? 'bg-emerald-50/95 border-emerald-200 text-emerald-800' : 'bg-white/95 border-gray-100 text-gray-800'}`
-                        }`}>
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                        className={`text-[11px] sm:text-[12px] font-medium px-3 py-2 rounded-xl max-w-[82%] leading-relaxed backdrop-blur-xl ${
+                          step.role === 'user'
+                            ? 'bg-gray-900/85 text-white self-end rounded-br-sm shadow-md'
+                            : `self-start rounded-tl-[4px] border shadow-sm ${
+                                imageState === 'green' && idx === chatSteps.length - 1
+                                  ? 'bg-emerald-50/90 border-emerald-200/60 text-emerald-700'
+                                  : 'bg-white/90 border-gray-100/60 text-gray-700'
+                              }`
+                        }`}
+                      >
                         {step.text}
-                      </div>
+                      </motion.div>
                     ))}
 
                     {typedText && (
-                      <div className="bg-white/95 backdrop-blur-2xl border border-gray-100 px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-sm flex items-center animate-fade-in-up self-end max-w-[85%] rounded-br-sm text-[11px] sm:text-[13px] font-semibold text-gray-800">
+                      <div className="bg-white/90 backdrop-blur-xl border border-gray-100/60 px-3 py-2 rounded-xl shadow-sm flex items-center self-end max-w-[82%] rounded-br-sm text-[11px] sm:text-[12px] font-medium text-gray-700">
                         {typedText}
-                        <span className="animate-pulse w-[2px] sm:w-[3px] h-3 bg-gray-900 ml-[3px]" />
+                        <span className="animate-pulse w-[2px] h-3 bg-gray-800 ml-1 rounded-full" />
                       </div>
                     )}
                   </div>
                 </div>
               </div>
+
+              {/* Floating accent particles — very subtle */}
+              <div className="absolute -top-4 -right-4 w-20 h-20 rounded-full bg-gradient-to-br from-brand/10 to-purple-400/5 blur-2xl pointer-events-none" />
+              <div className="absolute -bottom-4 -left-4 w-16 h-16 rounded-full bg-gradient-to-tr from-emerald-400/10 to-cyan-300/5 blur-2xl pointer-events-none" />
             </motion.div>
-          </div>
+          </motion.div>
         </div>
+
+        {/* ── Bottom scroll indicator ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2"
+        >
+          <span className="text-[10px] text-gray-300 font-medium tracking-wider uppercase">Scroll</span>
+          <div className="w-5 h-8 rounded-full border-2 border-gray-200 flex items-start justify-center p-1">
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-1 h-1.5 rounded-full bg-gray-300"
+            />
+          </div>
+        </motion.div>
       </section>
 
+      {/* ── OTP Modal ── */}
       {isOTPModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-gray-900/40 backdrop-blur-3xl animate-fade-in" onClick={() => setIsOTPModalOpen(false)} />
-          <div className="relative w-full max-w-[400px] bg-white rounded-[2rem] p-8 md:p-10 border border-gray-200 shadow-[0_40px_100px_rgba(0,0,0,0.2)] flex flex-col items-center animate-fade-in-up">
-
-            {/* Dynamic Icon */}
-            <div className="w-16 h-16 rounded-[1.2rem] bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-900 mb-6 relative">
-              <ShieldAlert size={28} strokeWidth={1.5} />
-              <div className="absolute top-0 right-0 w-3 h-3 bg-brand rounded-full border-2 border-white animate-pulse" />
+          <div className="absolute inset-0 bg-black/30 backdrop-blur-xl animate-fade-in" onClick={() => setIsOTPModalOpen(false)} />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="relative w-full max-w-[400px] bg-white rounded-2xl p-8 md:p-10 border border-gray-200/80 shadow-2xl flex flex-col items-center"
+          >
+            <div className="w-14 h-14 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-800 mb-5 relative">
+              <ShieldAlert size={24} strokeWidth={1.5} />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-brand rounded-full border-2 border-white animate-pulse" />
             </div>
 
-            <h3 className="text-2xl font-bold text-gray-900 tracking-tight mb-2 text-center">Private Space Viewer</h3>
-            <p className="text-[14px] text-gray-500 font-medium text-center mb-8 leading-relaxed">
-              Secure 3D views are locked. Please input your 6-digit Private View OTP token below to decrypt access.
+            <h3 className="text-xl font-bold text-gray-900 tracking-tight mb-1.5 text-center">Private Space Viewer</h3>
+            <p className="text-[13px] text-gray-400 font-medium text-center mb-7 leading-relaxed max-w-[280px]">
+              Enter your 6-digit OTP token to decrypt and view this private space.
             </p>
 
-            <div className="flex gap-2.5 mb-8 z-10 w-full justify-between">
+            <div className="flex gap-2 mb-7 z-10 w-full justify-center">
               {otpCode.map((val, idx) => (
                 <input
-                  key={idx} ref={el => { otpInputs.current[idx] = el; }} type="text" maxLength={1} value={val} onChange={(e) => handleOtpChange(idx, e.target.value)}
-                  className="w-[45px] h-[55px] rounded-xl border border-gray-200 bg-gray-50 text-center text-xl font-bold text-gray-900 focus:outline-none focus:border-brand focus:ring-4 focus:ring-brand/10 focus:bg-white transition-all shadow-inner"
+                  key={idx}
+                  ref={el => { otpInputs.current[idx] = el; }}
+                  type="text"
+                  maxLength={1}
+                  value={val}
+                  onChange={(e) => handleOtpChange(idx, e.target.value)}
+                  className="w-[44px] h-[52px] rounded-xl border border-gray-200 bg-gray-50 text-center text-lg font-bold text-gray-900 focus:outline-none focus:border-brand focus:ring-4 focus:ring-brand/10 focus:bg-white transition-all"
                 />
               ))}
             </div>
 
-            <button className="w-full py-4 bg-gray-900 hover:bg-black text-white rounded-[1rem] font-bold text-[14px] tracking-wide transition-all shadow-md active:scale-95 mb-6">
-              Decrypt & View Space
+            <button className="w-full py-3.5 bg-gray-900 hover:bg-black text-white rounded-xl font-semibold text-[13px] transition-all active:scale-[0.97] mb-5">
+              Decrypt & View
             </button>
 
-            <p className="text-[11px] text-gray-400 font-medium text-center px-4">
-              Don't have a token? <a href="#" className="text-brand hover:underline">Request access</a> from the space owner.
+            <p className="text-[11px] text-gray-400 font-medium text-center">
+              No token? <a href="#" className="text-brand hover:underline">Request access</a> from the owner.
             </p>
 
-            <button onClick={() => setIsOTPModalOpen(false)} className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-colors">
-              <X size={16} />
+            <button onClick={() => setIsOTPModalOpen(false)} className="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center text-gray-300 hover:text-gray-900 hover:bg-gray-100 transition-colors">
+              <X size={14} />
             </button>
-          </div>
+          </motion.div>
         </div>
       )}
-
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        @keyframes hyperFloat {
-          0% { transform: translateY(0px) rotateX(1deg) rotateY(-2deg); }
-          50% { transform: translateY(-12px) rotateX(-1deg) rotateY(2deg); }
-          100% { transform: translateY(0px) rotateX(1deg) rotateY(-2deg); }
-        }
-      `}} />
     </>
   );
 }

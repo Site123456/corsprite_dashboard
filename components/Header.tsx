@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Menu, X, ChevronDown, Globe, Play, ArrowRight,
@@ -79,15 +79,18 @@ export default function Header() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [currentLang, setCurrentLang] = useState('EN');
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  const [scrolled, setScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > 72 && currentScrollY > lastScrollY && !isMobileOpen && !activeMenu) {
+      setScrolled(currentScrollY > 20);
+      if (currentScrollY > 100 && currentScrollY > lastScrollY && !isMobileOpen && !activeMenu) {
         setIsVisible(false);
       } else {
         setIsVisible(true);
@@ -95,18 +98,18 @@ export default function Header() {
       setLastScrollY(currentScrollY);
     };
 
-    const handleClick = () => {
-      setIsVisible(true);
-    };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('click', handleClick);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('click', handleClick);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY, isMobileOpen, activeMenu]);
+
+  // Close lang dropdown on outside click
+  useEffect(() => {
+    const handler = () => setIsLangOpen(false);
+    if (isLangOpen) {
+      window.addEventListener('click', handler);
+      return () => window.removeEventListener('click', handler);
+    }
+  }, [isLangOpen]);
 
   const handleMouseEnter = (menu: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -116,185 +119,384 @@ export default function Header() {
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
       setActiveMenu(null);
-    }, 150);
+    }, 200);
   };
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isMobileOpen]);
+
   return (
-    <div className={`fixed top-0 inset-x-0 z-50 pointer-events-none transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-      <header className={`w-full h-[72px] relative flex items-center justify-between transition-all duration-300 px-4 sm:px-6 lg:px-12 pointer-events-auto ${isVisible ? 'bg-white/80 backdrop-blur-[40px] border-b border-gray-200/50 shadow-sm' : 'bg-transparent'}`} onMouseLeave={handleMouseLeave}>
+    <div className={`fixed top-0 inset-x-0 z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
 
-        {/* Left Side: Logo */}
-        <div className="flex items-center w-[160px]">
-          <a href="#" className="flex items-center gap-2">
-            <img src="/logo/logo.png" alt="Corsprite" className="h-[44px] sm:h-[44px] object-contain mix-blend-multiply" />
+      {/* ── Top Bar ── */}
+      <header
+        className={`relative w-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          scrolled
+            ? 'h-[60px] bg-white/70 backdrop-blur-2xl border-b border-gray-200/40 shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
+            : 'h-[68px] bg-transparent'
+        }`}
+        onMouseLeave={handleMouseLeave}
+      >
+        <div className="max-w-[1280px] mx-auto h-full flex items-center justify-between px-5 lg:px-8">
+
+          {/* Logo */}
+          <a href="#" className="flex items-center gap-2.5 shrink-0 relative z-10">
+            <img
+              src="/logo/logo.png"
+              alt="Corsprite"
+              className={`object-contain mix-blend-multiply transition-all duration-500 ${scrolled ? 'h-[36px]' : 'h-[40px]'}`}
+            />
           </a>
-        </div>
 
-        {/* Center: Unified Shelf Nav */}
-        <nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center justify-center h-full gap-2">
-          {Object.entries(megaMenus).map(([key, menu]) => (
-            <div
-              key={key}
-              /* REMOVED RELATIVE: the dropdown will map natively to the <nav> container instead of the button itself! */
-              className="h-full flex items-center group"
-              onMouseEnter={() => handleMouseEnter(key)}
+          {/* ── Center Nav ── */}
+          <nav className="hidden lg:flex items-center gap-0.5 h-full">
+            {Object.entries(megaMenus).map(([key, menu]) => (
+              <div
+                key={key}
+                className="h-full flex items-center"
+                onMouseEnter={() => handleMouseEnter(key)}
+              >
+                <button
+                  className={`relative flex items-center gap-1 text-[13px] font-medium tracking-[-0.01em] px-3.5 py-1.5 rounded-lg transition-all duration-300 ${
+                    activeMenu === key
+                      ? 'text-gray-900 bg-gray-100/70'
+                      : 'text-gray-500 hover:text-gray-800'
+                  }`}
+                >
+                  {menu.label}
+                  <ChevronDown
+                    size={12}
+                    className={`text-gray-400 transition-transform duration-300 ${activeMenu === key ? 'rotate-180 text-gray-600' : ''}`}
+                  />
+                </button>
+              </div>
+            ))}
+
+            <a
+              href="#pricing"
+              className="text-[13px] font-medium tracking-[-0.01em] px-3.5 py-1.5 rounded-lg text-gray-500 hover:text-gray-800 transition-all duration-300"
             >
-              <button className={`flex items-center gap-1.5 text-[14px] font-semibold tracking-tight px-4 py-2 rounded-full transition-all duration-300 ${activeMenu === key ? 'bg-gray-100/80 text-gray-900' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'}`}>
-                {menu.label}
-                <ChevronDown size={14} className={`text-gray-400 transition-transform duration-300 ${activeMenu === key ? 'rotate-180 text-gray-900' : ''}`} />
-              </button>
+              Pricing
+            </a>
+            <a
+              href="#"
+              className="text-[13px] font-medium tracking-[-0.01em] px-3.5 py-1.5 rounded-lg text-gray-500 hover:text-gray-800 transition-all duration-300"
+            >
+              Docs
+            </a>
+          </nav>
 
-              {/* Mega Dropdown Centered via Unified Nav Architecture */}
-              <AnimatePresence>
-                {activeMenu === key && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 8, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute top-[72px] left-1/2 -translate-x-1/2 w-[840px] max-w-[calc(100vw-48px)] bg-white/95 backdrop-blur-3xl border border-gray-200/80 shadow-[0_40px_100px_-15px_rgba(0,0,0,0.15)] rounded-[2.5rem] overflow-hidden"
-                  >
-                    <div className="flex flex-col md:flex-row h-full">
-                      <div className="flex-1 p-8 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-3">
-                        {menu.mainLinks.map((link, idx) => {
-                          const Icon = link.icon;
-                          return (
-                            <a key={idx} href="#" className="flex items-start gap-4 p-3 rounded-[1.5rem] hover:bg-gray-50/80 group border border-transparent hover:border-gray-100/50 transition-all duration-300">
-                              <div className="shrink-0 w-10 h-10 rounded-[12px] border border-gray-100/80 flex items-center justify-center text-gray-400 bg-white group-hover:bg-brand/5 group-hover:text-brand transition-all duration-300 shadow-sm">
-                                <Icon size={18} strokeWidth={2} />
-                              </div>
-                              <div className="pt-0.5">
-                                <h4 className="text-[13px] font-bold text-gray-900 mb-1 group-hover:text-brand transition-colors tracking-tight leading-none">{link.title}</h4>
-                                <p className="text-[12px] text-gray-500 leading-relaxed font-medium">{link.desc}</p>
-                              </div>
-                            </a>
-                          );
-                        })}
-                      </div>
-                      {/* Highlight Block */}
-                      <div className="w-full md:w-[320px] bg-gray-50/50 p-10 border-t md:border-t-0 md:border-l border-gray-100/80 flex flex-col items-start justify-center relative overflow-hidden">
-                        <p className="text-[10px] font-bold text-brand tracking-widest uppercase mb-4 relative z-10">{menu.highlight.title}</p>
-                        <div className="w-12 h-12 rounded-[14px] bg-white border border-gray-200 shadow-sm flex items-center justify-center text-gray-800 mb-5 relative z-10">
-                          <menu.highlight.icon size={22} strokeWidth={1.5} />
-                        </div>
-                        <h4 className="text-[17px] font-bold text-gray-900 mb-2 tracking-tight relative z-10">{menu.highlight.heading}</h4>
-                        <p className="text-[13px] text-gray-500 leading-relaxed font-medium mb-6 relative z-10">
-                          {menu.highlight.desc}
-                        </p>
-                        <a href="#" className="flex items-center gap-2 text-[12px] font-bold text-gray-900 hover:text-brand transition-colors group relative z-10">
-                          {menu.highlight.action}
-                          <ArrowRight size={14} className="group-hover:translate-x-1 text-gray-400 group-hover:text-brand transition-all" />
-                        </a>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ))}
-          <a href="#" className="flex items-center gap-1.5 text-[14px] font-semibold tracking-tight px-4 py-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-all duration-300">Pricing</a>
-        </nav>
+          {/* ── Right Actions ── */}
+          <div className="flex items-center gap-2 shrink-0 relative z-10">
 
-        {/* Right Side: Actions (Desktop & Mobile Refined) */}
-        <div className="flex items-center justify-end gap-2 w-auto">
-
-          <div className="hidden lg:flex items-center gap-4">
-            <a href="#" className="text-[13px] font-semibold tracking-tight px-3 py-2 text-gray-600 hover:text-gray-900 transition-colors">Documentation</a>
-
-            <div className="relative border-r border-gray-200/60 pr-4 mr-2">
+            {/* Language Switcher — Desktop */}
+            <div className="hidden lg:block relative">
               <button
-                className="flex items-center gap-1.5 text-[13px] font-semibold tracking-tight px-3 py-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+                className="flex items-center gap-1.5 text-[12px] font-medium text-gray-400 hover:text-gray-700 px-2.5 py-1.5 rounded-lg transition-colors"
                 onClick={(e) => { e.stopPropagation(); setIsLangOpen(!isLangOpen); setActiveMenu(null); }}
               >
-                <Globe size={15} className="text-gray-400" />
+                <Globe size={13} />
                 {currentLang}
               </button>
               <AnimatePresence>
                 {isLangOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 5, scale: 0.95 }}
+                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 5, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-[45px] left-1/2 -translate-x-1/2 w-36 bg-white/95 backdrop-blur-3xl border border-gray-100 shadow-md rounded-[1.5rem] py-2 origin-top"
+                    exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute top-[40px] right-0 w-[140px] bg-white/95 backdrop-blur-2xl border border-gray-100 shadow-lg rounded-xl py-1.5 origin-top-right"
+                    onClick={(e) => e.stopPropagation()}
                   >
                     {languages.map(l => (
                       <button
                         key={l.code}
-                        className="w-full text-left px-5 py-2 text-[13px] hover:bg-gray-50/80 text-gray-700 hover:text-brand transition-colors flex justify-between items-center font-medium"
+                        className="w-full text-left px-4 py-2 text-[12px] hover:bg-gray-50 text-gray-600 hover:text-gray-900 transition-colors flex justify-between items-center font-medium"
                         onClick={() => { setCurrentLang(l.code); setIsLangOpen(false); }}
                       >
                         {l.name}
-                        {currentLang === l.code && <span className="w-1.5 h-1.5 rounded-full bg-brand shadow-sm" />}
+                        {currentLang === l.code && <span className="w-1.5 h-1.5 rounded-full bg-brand" />}
                       </button>
                     ))}
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
-          </div>
 
-          {/* Minimal Auth Actions */}
-          <button onClick={onOpenRelease} className="hidden sm:flex items-center gap-2 text-[13px] font-bold tracking-wide px-5 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors rounded-full shrink-0">
-            Log In
-          </button>
-          <button onClick={onOpenRelease} className="hidden sm:flex items-center gap-2 px-6 py-2.5 rounded-[1.2rem] bg-gray-900 hover:bg-black text-white text-[13px] font-bold tracking-wide transition-all duration-300 shadow-sm shrink-0 hover:shadow-md">
-            Get Platform
-          </button>
+            {/* Divider */}
+            <div className="hidden lg:block w-px h-5 bg-gray-200/60" />
 
-          {/* Mobile Extremely Clean Right Module */}
-          <div className="sm:hidden flex items-center gap-1 border border-gray-200/60 p-1 rounded-full bg-white/50 shadow-sm">
-            <button onClick={onOpenRelease} className="flex items-center gap-2 px-3 py-1.5 rounded-full text-gray-600 hover:bg-gray-50 text-[11px] font-bold transition-all shrink-0">
-              Log In
+            {/* Auth */}
+            <button
+              onClick={onOpenRelease}
+              className="hidden lg:flex items-center text-[13px] font-medium text-gray-500 hover:text-gray-900 px-3 py-1.5 rounded-lg transition-colors"
+            >
+              Log in
             </button>
-            <button onClick={onOpenRelease} className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand hover:bg-brand-dark text-white text-[11px] font-bold transition-all shadow-sm shrink-0">
+            <button
+              onClick={onOpenRelease}
+              className="hidden sm:flex items-center gap-1.5 px-4 py-2 rounded-lg bg-gray-900 text-white text-[12px] font-semibold tracking-[-0.01em] transition-all duration-300 hover:bg-black hover:shadow-lg hover:shadow-gray-900/10 active:scale-[0.97]"
+            >
+              Get Started
+              <ArrowRight size={12} className="opacity-60" />
+            </button>
+
+            {/* Mobile CTA pill */}
+            <button
+              onClick={onOpenRelease}
+              className="sm:hidden flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gray-900 text-white text-[11px] font-semibold transition-all"
+            >
               Get App
             </button>
-          </div>
 
-          <button
-            className={`lg:hidden text-gray-900 p-2 relative ml-1 rounded-full transition-colors pointer-events-auto flex items-center justify-center bg-gray-50/80 hover:bg-gray-100 ${isMobileOpen ? 'bg-gray-100' : ''}`}
-            onClick={() => { setIsMobileOpen(!isMobileOpen); setActiveMenu(null); setIsLangOpen(false); }}
-          >
-            {isMobileOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+            {/* Mobile hamburger */}
+            <button
+              className="lg:hidden flex items-center justify-center w-9 h-9 rounded-lg text-gray-600 hover:bg-gray-100/80 transition-colors ml-1"
+              onClick={() => { setIsMobileOpen(!isMobileOpen); setActiveMenu(null); setIsLangOpen(false); }}
+              aria-label="Toggle navigation"
+            >
+              {isMobileOpen ? <X size={18} strokeWidth={2} /> : <Menu size={18} strokeWidth={2} />}
+            </button>
+          </div>
         </div>
+
+        {/* ── Mega Dropdown ── */}
+        <AnimatePresence>
+          {activeMenu && megaMenus[activeMenu as keyof typeof megaMenus] && (
+            <motion.div
+              key={activeMenu}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute top-full left-1/2 -translate-x-1/2 w-[780px] max-w-[calc(100vw-32px)] mt-2"
+              onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); }}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="bg-white/95 backdrop-blur-2xl border border-gray-200/60 shadow-[0_20px_60px_-12px_rgba(0,0,0,0.12)] rounded-2xl overflow-hidden">
+                <div className="flex">
+                  {/* Links Grid */}
+                  <div className="flex-1 p-6 grid grid-cols-2 gap-1">
+                    {megaMenus[activeMenu as keyof typeof megaMenus].mainLinks.map((link, idx) => {
+                      const Icon = link.icon;
+                      return (
+                        <a
+                          key={idx}
+                          href="#"
+                          className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50/80 group transition-all duration-200"
+                        >
+                          <div className="shrink-0 w-9 h-9 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 group-hover:text-brand group-hover:border-brand/20 group-hover:bg-brand/5 transition-all duration-200">
+                            <Icon size={16} strokeWidth={1.8} />
+                          </div>
+                          <div className="min-w-0 pt-0.5">
+                            <h4 className="text-[13px] font-semibold text-gray-800 group-hover:text-gray-900 transition-colors leading-none mb-1">
+                              {link.title}
+                            </h4>
+                            <p className="text-[11px] text-gray-400 leading-relaxed font-medium line-clamp-2">
+                              {link.desc}
+                            </p>
+                          </div>
+                        </a>
+                      );
+                    })}
+                  </div>
+
+                  {/* Highlight Panel */}
+                  <div className="w-[260px] bg-gradient-to-b from-gray-50/80 to-gray-50/40 p-7 border-l border-gray-100/60 flex flex-col justify-center">
+                    <p className="text-[9px] font-bold text-brand tracking-[0.15em] uppercase mb-3">
+                      {megaMenus[activeMenu as keyof typeof megaMenus].highlight.title}
+                    </p>
+                    <div className="w-10 h-10 rounded-lg bg-white border border-gray-100 shadow-sm flex items-center justify-center text-gray-700 mb-4">
+                      {React.createElement(megaMenus[activeMenu as keyof typeof megaMenus].highlight.icon, { size: 18, strokeWidth: 1.5 })}
+                    </div>
+                    <h4 className="text-[15px] font-bold text-gray-900 mb-1.5 tracking-tight leading-snug">
+                      {megaMenus[activeMenu as keyof typeof megaMenus].highlight.heading}
+                    </h4>
+                    <p className="text-[11px] text-gray-500 leading-relaxed font-medium mb-4">
+                      {megaMenus[activeMenu as keyof typeof megaMenus].highlight.desc}
+                    </p>
+                    <a href="#" className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-gray-800 hover:text-brand transition-colors group/link">
+                      {megaMenus[activeMenu as keyof typeof megaMenus].highlight.action}
+                      <ArrowRight size={11} className="text-gray-400 group-hover/link:text-brand group-hover/link:translate-x-0.5 transition-all" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
-      {/* Mobile Menu Dropdown */}
+      {/* ── Mobile Slide-in Panel ── */}
       <AnimatePresence>
         {isMobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:hidden absolute top-[72px] left-0 w-full bg-white/95 backdrop-blur-3xl border-b border-gray-200/50 shadow-[0_40px_100px_-15px_rgba(0,0,0,0.15)] overflow-y-auto pointer-events-auto origin-top"
-          >
-            <div className="flex flex-col px-6 py-6 space-y-6">
-              {Object.entries(megaMenus).map(([key, menu]) => (
-                <div key={key} className="space-y-4">
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{menu.label}</p>
-                  <div className="grid grid-cols-1 gap-3 pl-2 border-l border-gray-100/50">
-                    {menu.mainLinks.map((link, idx) => (
-                      <a key={idx} href="#" className="flex gap-4 items-center group">
-                        <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center text-gray-400 group-hover:text-brand border border-gray-100">
-                          <link.icon size={14} />
-                        </div>
-                        <span className="text-[13px] font-semibold text-gray-700 group-hover:text-gray-900 transition-colors">{link.title}</span>
-                      </a>
+          <>
+            {/* Backdrop with intense blur */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+              className="fixed inset-0 top-0 bg-white/40 backdrop-blur-md z-40 lg:hidden"
+              onClick={() => setIsMobileOpen(false)}
+            />
+
+            {/* Panel */}
+            <motion.div
+              initial={{ x: '100%', opacity: 0.5 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '100%', opacity: 0.5 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed top-0 right-0 bottom-0 w-[85vw] max-w-[380px] bg-white z-50 shadow-[0_0_100px_rgba(0,0,0,0.1)] lg:hidden flex flex-col border-l border-gray-100"
+            >
+              {/* Panel Header */}
+              <div className="flex items-center justify-between px-6 py-6">
+                <motion.img 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.2 }}
+                  src="/logo/logo.png" 
+                  alt="Corsprite" 
+                  className="h-[32px] object-contain mix-blend-multiply" 
+                />
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setIsMobileOpen(false)}
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 bg-gray-50 hover:bg-gray-100 transition-colors"
+                >
+                  <X size={18} />
+                </motion.button>
+              </div>
+
+              {/* Panel Content */}
+              <div className="flex-1 overflow-y-auto px-6 py-2 scrollbar-none">
+                <nav className="space-y-1">
+                  {Object.entries(megaMenus).map(([key, menu], idx) => (
+                    <motion.div 
+                      key={key}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + idx * 0.05, duration: 0.5 }}
+                    >
+                      <button
+                        onClick={() => setMobileExpanded(mobileExpanded === key ? null : key)}
+                        className={`w-full flex items-center justify-between py-4 text-[15px] font-semibold tracking-tight transition-colors ${
+                          mobileExpanded === key ? 'text-brand' : 'text-gray-900'
+                        }`}
+                      >
+                        {menu.label}
+                        <motion.div
+                          animate={{ rotate: mobileExpanded === key ? 180 : 0 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <ChevronDown size={16} className={mobileExpanded === key ? 'text-brand' : 'text-gray-400'} />
+                        </motion.div>
+                      </button>
+                      <AnimatePresence>
+                        {mobileExpanded === key && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0, scaleY: 0.95 }}
+                            animate={{ height: 'auto', opacity: 1, scaleY: 1 }}
+                            exit={{ height: 0, opacity: 0, scaleY: 0.95 }}
+                            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                            className="overflow-hidden origin-top"
+                          >
+                            <div className="pb-4 pl-2 space-y-1">
+                              {menu.mainLinks.map((link, lIdx) => (
+                                <motion.a
+                                  key={lIdx}
+                                  initial={{ opacity: 0, x: 10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: lIdx * 0.03 }}
+                                  href="#"
+                                  className="flex items-center gap-4 py-3 px-3 rounded-2xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100 group"
+                                >
+                                  <div className="w-9 h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 group-hover:bg-white group-hover:text-brand group-hover:shadow-sm transition-all">
+                                    <link.icon size={15} strokeWidth={1.8} />
+                                  </div>
+                                  <div className="flex flex-col">
+                                    <span className="text-[13px] font-semibold text-gray-800">
+                                      {link.title}
+                                    </span>
+                                    <span className="text-[10px] text-gray-400 font-medium line-clamp-1">
+                                      {link.desc}
+                                    </span>
+                                  </div>
+                                </motion.a>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  ))}
+
+                  <motion.div 
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                    className="border-t border-gray-50 mt-4 pt-4 space-y-2"
+                  >
+                    <a href="#pricing" className="block py-3 text-[15px] font-semibold text-gray-900 px-1">Pricing</a>
+                    <a href="#" className="block py-3 text-[15px] font-semibold text-gray-900 px-1">Documentation</a>
+                  </motion.div>
+                </nav>
+              </div>
+
+              {/* Panel Footer */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="px-6 py-8 border-t border-gray-100 bg-gray-50/50 space-y-3"
+              >
+                <div className="flex flex-col gap-3">
+                  <button
+                    onClick={() => { setIsMobileOpen(false); onOpenRelease(); }}
+                    className="w-full py-4 rounded-2xl bg-gray-900 text-white text-[14px] font-bold transition-all hover:bg-black active:scale-[0.98] shadow-lg shadow-gray-900/10"
+                  >
+                    Get Started
+                  </button>
+                  <button
+                    onClick={() => { setIsMobileOpen(false); onOpenRelease(); }}
+                    className="w-full py-4 rounded-2xl bg-white border border-gray-200 text-gray-900 text-[14px] font-bold transition-all hover:bg-gray-50 active:scale-[0.98]"
+                  >
+                    Log in
+                  </button>
+                </div>
+
+                {/* Language Selector */}
+                <div className="flex items-center justify-between pt-4">
+                  <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Language</span>
+                  <div className="flex items-center gap-1">
+                    {languages.slice(0, 3).map(l => (
+                      <button
+                        key={l.code}
+                        onClick={() => setCurrentLang(l.code)}
+                        className={`text-[12px] font-bold px-3 py-1.5 rounded-xl transition-all ${
+                          currentLang === l.code 
+                            ? 'bg-white text-brand shadow-sm border border-gray-100' 
+                            : 'text-gray-400 hover:text-gray-600'
+                        }`}
+                      >
+                        {l.code}
+                      </button>
                     ))}
                   </div>
                 </div>
-              ))}
-              <div className="pt-2 border-t border-gray-100/50 flex flex-col gap-3">
-                <a href="#" className="text-[14px] font-semibold text-gray-800">Pricing</a>
-                <a href="#" className="text-[14px] font-semibold text-gray-800">Documentation</a>
-              </div>
-            </div>
-          </motion.div>
+              </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
+
     </div>
   );
 }
