@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { MonitorDown, Smartphone, LayoutDashboard, KeyRound, ArrowRight, Loader2, Check, X, ShieldAlert } from 'lucide-react';
 
 export default function Hero() {
@@ -71,113 +72,112 @@ export default function Hero() {
 
   return (
     <>
-      <section className="relative min-h-screen flex items-center justify-center pt-28 pb-10 px-6 bg-white overflow-hidden">
+      <section className="relative flex items-center justify-center pt-24 sm:pt-28 pb-8 sm:pb-10 px-5 sm:px-6 bg-white overflow-hidden min-h-[calc(100vh-60px)] lg:min-h-screen">
 
         {/* Subtle gradient orbs */}
-        <div className="absolute top-[-200px] left-[-100px] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-purple-200/30 via-blue-100/20 to-transparent blur-3xl pointer-events-none" />
-        <div className="absolute bottom-[-150px] right-[-100px] w-[500px] h-[500px] rounded-full bg-gradient-to-tl from-emerald-200/25 via-cyan-100/15 to-transparent blur-3xl pointer-events-none" />
-        <div className="absolute top-[40%] left-[60%] w-[300px] h-[300px] rounded-full bg-gradient-to-br from-blue-200/15 to-purple-100/10 blur-3xl pointer-events-none" />
+        <div className="absolute top-[-200px] left-[-100px] w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full bg-gradient-to-br from-purple-200/30 via-blue-100/20 to-transparent blur-3xl pointer-events-none" />
+        <div className="absolute bottom-[-150px] right-[-100px] w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] rounded-full bg-gradient-to-tl from-emerald-200/25 via-cyan-100/15 to-transparent blur-3xl pointer-events-none" />
 
-        <div className="max-w-[1300px] mx-auto w-full grid lg:grid-cols-[1fr_500px] gap-12 lg:gap-16 items-center z-10 relative">
+        <div className="max-w-[1200px] mx-auto w-full grid lg:grid-cols-[1fr_440px] gap-8 lg:gap-12 items-center z-10 relative">
 
           {/* Left: Compact Minimalist Typography */}
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left animate-fade-in-up mt-8 lg:mt-0">
-            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-5 flex items-center gap-2 px-3 py-1 bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-full shadow-sm">
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left animate-fade-in-up">
+            <span className="text-[9px] sm:text-[10px] font-bold tracking-[0.2em] uppercase text-gray-500 mb-4 flex items-center gap-2 px-3 py-1 bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-full shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Spatial Intelligence
             </span>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-[5rem] xl:text-[5.5rem] font-bold tracking-tight mb-5 text-gray-900 leading-[1.05] lg:leading-[1] max-w-full">
-              <span className="bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-400 bg-clip-text text-transparent inline-block pb-1">Corsprite.</span><br />
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[4.5rem] font-bold tracking-tight mb-4 text-gray-900 leading-[1.08] max-w-full">
+              <span className="bg-gradient-to-r from-purple-600 via-blue-500 to-emerald-400 bg-clip-text text-transparent inline-block pb-0.5">Corsprite.</span><br />
               Conceptions,<br />
               Redefined.
             </h1>
 
-            <p className="text-[14px] sm:text-[16px] text-gray-500 max-w-md mx-auto lg:mx-0 mb-8 leading-relaxed font-medium">
+            <p className="text-[13px] sm:text-[15px] text-gray-500 max-w-sm mx-auto lg:mx-0 mb-6 leading-relaxed font-medium">
               Extract structural intelligence from raw point clouds natively. Remodel layouts and generate accurate CAD floor plans instantly.
             </p>
 
-            <div className="flex flex-col items-center lg:items-start gap-3 w-full max-w-[420px]">
+            <div className="flex flex-col items-center lg:items-start gap-2.5 w-full max-w-[380px]">
               {/* Primary CTA row */}
-              <div className="flex items-center gap-2.5 w-full">
-                <button className="flex-1 px-5 py-3 rounded-xl bg-gray-900 hover:bg-black text-white transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2.5 group">
+              <div className="flex items-center gap-2 w-full">
+                <button className="flex-1 px-4 py-2.5 sm:py-3 rounded-xl bg-gray-900 hover:bg-black text-white transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 group">
                   {osData.name.includes('Windows') && (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
                   )}
                   {osData.name.includes('App Store') && (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
                   )}
                   {osData.name.includes('Google Play') && (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M3.18 23.67c-.37-.2-.63-.55-.63-.97V1.3c0-.42.26-.77.63-.97l11.83 11.67L3.18 23.67zM15.82 12L5 1.56 17.64 8.4l-1.82 3.6zm2.36-1.22L20.8 12l-2.62 1.22L16.5 12l1.68-1.22zM5 22.44l12.64-6.84-1.82-3.6L5 22.44z" /></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="opacity-80"><path d="M3.18 23.67c-.37-.2-.63-.55-.63-.97V1.3c0-.42.26-.77.63-.97l11.83 11.67L3.18 23.67zM15.82 12L5 1.56 17.64 8.4l-1.82 3.6zm2.36-1.22L20.8 12l-2.62 1.22L16.5 12l1.68-1.22zM5 22.44l12.64-6.84-1.82-3.6L5 22.44z" /></svg>
                   )}
-                  <span className="font-bold text-[12px] tracking-tight">{osData.name}</span>
+                  <span className="font-bold text-[11px] sm:text-[12px] tracking-tight">{osData.name}</span>
                 </button>
 
-                <button onClick={() => setIsOTPModalOpen(true)} className="px-5 py-3 rounded-xl bg-white border border-gray-200 hover:border-gray-300 text-gray-700 transition-all flex items-center justify-center gap-2 group shadow-sm hover:shadow-md">
-                  <KeyRound size={14} className="text-gray-400 group-hover:text-gray-900 transition-colors" />
-                  <span className="font-bold text-[12px] tracking-tight whitespace-nowrap">View Space</span>
+                <button onClick={() => setIsOTPModalOpen(true)} className="px-4 py-2.5 sm:py-3 rounded-xl bg-white border border-gray-200 hover:border-gray-300 text-gray-700 transition-all flex items-center justify-center gap-2 group shadow-sm hover:shadow-md">
+                  <KeyRound size={13} className="text-gray-400 group-hover:text-gray-900 transition-colors" />
+                  <span className="font-bold text-[11px] sm:text-[12px] tracking-tight whitespace-nowrap">View Space</span>
                 </button>
               </div>
 
-              {/* All platforms row — minimalist pills (hide detected platform) */}
-              <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-[10px] font-semibold text-gray-400 mr-1">Also on</span>
+              {/* All platforms row */}
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-[9px] sm:text-[10px] font-semibold text-gray-400 mr-0.5">Also on</span>
                 {osData.platform !== 'windows' && (
-                  <a href="#" className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 transition-all group" title="Windows">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-gray-400 group-hover:text-gray-700 transition-colors"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
-                    <span className="text-[10px] font-bold text-gray-400 group-hover:text-gray-700 transition-colors">Windows</span>
+                  <a href="#" className="flex items-center gap-1 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 transition-all group" title="Windows">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="text-gray-400 group-hover:text-gray-700 transition-colors"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
+                    <span className="text-[9px] sm:text-[10px] font-bold text-gray-400 group-hover:text-gray-700 transition-colors">Windows</span>
                   </a>
                 )}
                 {osData.platform !== 'ios' && (
-                  <a href="#" className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 transition-all group" title="iOS">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-gray-400 group-hover:text-gray-700 transition-colors"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
-                    <span className="text-[10px] font-bold text-gray-400 group-hover:text-gray-700 transition-colors">iOS</span>
+                  <a href="#" className="flex items-center gap-1 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 transition-all group" title="iOS">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="text-gray-400 group-hover:text-gray-700 transition-colors"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
+                    <span className="text-[9px] sm:text-[10px] font-bold text-gray-400 group-hover:text-gray-700 transition-colors">iOS</span>
                   </a>
                 )}
                 {osData.platform !== 'android' && (
-                  <a href="#" className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 transition-all group" title="Android">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-gray-400 group-hover:text-gray-700 transition-colors"><path d="M17.6 11.5c0-.3 0-.5-.1-.8l1.7-1-1-1.7-1.7 1c-.5-.4-1.1-.7-1.7-.8V6h-2v2.1c-.6.2-1.2.5-1.7.8l-1.7-1-1 1.7 1.7 1c-.1.3-.1.5-.1.8s0 .5.1.8l-1.7 1 1 1.7 1.7-1c.5.4 1.1.7 1.7.8V18h2v-2.1c.6-.2 1.2-.5 1.7-.8l1.7 1 1-1.7-1.7-1c.1-.3.1-.5.1-.8zm-3.6 2c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM7 2l-1 1 2.6 2.6C6.3 7.1 5 9.1 5 11.5c0 3.6 2.4 6.5 5.7 7.3L7 22l1 1 4-4-4-4-1 1 2.5 2.5c-2.5-.7-4.5-3-4.5-5.9 0-2 1-3.7 2.5-4.8L7 2z" /></svg>
-                    <span className="text-[10px] font-bold text-gray-400 group-hover:text-gray-700 transition-colors">Android</span>
+                  <a href="#" className="flex items-center gap-1 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 transition-all group" title="Android">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" className="text-gray-400 group-hover:text-gray-700 transition-colors"><path d="M17.6 11.5c0-.3 0-.5-.1-.8l1.7-1-1-1.7-1.7 1c-.5-.4-1.1-.7-1.7-.8V6h-2v2.1c-.6.2-1.2.5-1.7.8l-1.7-1-1 1.7 1.7 1c-.1.3-.1.5-.1.8s0 .5.1.8l-1.7 1 1 1.7 1.7-1c.5.4 1.1.7 1.7.8V18h2v-2.1c.6-.2 1.2-.5 1.7-.8l1.7 1 1-1.7-1.7-1c.1-.3.1-.5.1-.8zm-3.6 2c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM7 2l-1 1 2.6 2.6C6.3 7.1 5 9.1 5 11.5c0 3.6 2.4 6.5 5.7 7.3L7 22l1 1 4-4-4-4-1 1 2.5 2.5c-2.5-.7-4.5-3-4.5-5.9 0-2 1-3.7 2.5-4.8L7 2z" /></svg>
+                    <span className="text-[9px] sm:text-[10px] font-bold text-gray-400 group-hover:text-gray-700 transition-colors">Android</span>
                   </a>
                 )}
                 {osData.platform !== 'web' && (
-                  <a href="#" className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 transition-all group" title="Web App">
-                    <LayoutDashboard size={12} className="text-gray-400 group-hover:text-gray-700 transition-colors" />
-                    <span className="text-[10px] font-bold text-gray-400 group-hover:text-gray-700 transition-colors">Web</span>
+                  <a href="#" className="flex items-center gap-1 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-gray-200 hover:bg-gray-100 transition-all group" title="Web App">
+                    <LayoutDashboard size={11} className="text-gray-400 group-hover:text-gray-700 transition-colors" />
+                    <span className="text-[9px] sm:text-[10px] font-bold text-gray-400 group-hover:text-gray-700 transition-colors">Web</span>
                   </a>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Right: Premium Glass Box Structure */}
-          <div className="hidden lg:flex justify-end perspective-1000">
-            <div className="relative w-full aspect-[4/4.8] transform-style-3d" style={{ animation: 'hyperFloat 10s ease-in-out infinite' }}>
+          {/* Right: Interactive Demo Card — visible on all breakpoints */}
+          <div className="flex justify-center lg:justify-end perspective-1000 mt-4 lg:mt-0">
+            <div className="relative w-full max-w-[340px] sm:max-w-[400px] lg:max-w-none aspect-[4/4.5] sm:aspect-[4/4.8] transform-style-3d" style={{ animation: 'hyperFloat 10s ease-in-out infinite' }}>
 
               {/* Core Render Frame */}
-              <div className="absolute inset-0 bg-white shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] rounded-[2.5rem] border border-gray-100 overflow-hidden flex flex-col p-2">
+              <div className="absolute inset-0 bg-white shadow-[0_30px_80px_-20px_rgba(0,0,0,0.08)] rounded-[1.5rem] sm:rounded-[2rem] border border-gray-100 overflow-hidden flex flex-col p-1.5 sm:p-2">
 
                 {/* Image Window */}
-                <div className="flex-1 bg-gray-100 rounded-[2rem] border border-gray-100/50 shadow-inner relative flex items-center justify-center overflow-hidden">
+                <div className="flex-1 bg-gray-100 rounded-[1.2rem] sm:rounded-[1.8rem] border border-gray-100/50 shadow-inner relative flex items-center justify-center overflow-hidden">
 
                   <div className="absolute inset-0 w-full h-full">
-                    <img src="/room_demo_banner.png" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'base' ? 'opacity-100' : 'opacity-0'}`} alt="Scan" />
-                    <img src="/room_demo_banner_loading.png" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'loading' ? 'opacity-100' : 'opacity-0'}`} alt="Load" />
-                    <img src="/room_demo_banner_removed.png" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'removed' ? 'opacity-100' : 'opacity-0'}`} alt="Remove" />
-                    <img src="/room_demo_banner_removed_then_green.png" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'green' ? 'opacity-100' : 'opacity-0'}`} alt="Green" />
+                    <Image src="/room_demo_banner.png" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'base' ? 'opacity-100' : 'opacity-0'}`} alt="Scan" />
+                    <Image src="/room_demo_banner_loading.png" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'loading' ? 'opacity-100' : 'opacity-0'}`} alt="Load" />
+                    <Image src="/room_demo_banner_removed.png" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'removed' ? 'opacity-100' : 'opacity-0'}`} alt="Remove" />
+                    <Image src="/room_demo_banner_removed_then_green.png" className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${imageState === 'green' ? 'opacity-100' : 'opacity-0'}`} alt="Green" />
                   </div>
 
-                  {/* Top Floating Status Component */}
-                  <div className="absolute top-5 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-white/95 backdrop-blur-xl rounded-full px-4 py-2 shadow-sm border border-gray-200 z-20">
-                    {(imageState === 'loading' || showAIProcessing) && <Loader2 size={12} className="animate-spin text-brand" />}
-                    <span className={`text-[10px] uppercase font-bold tracking-widest ${imageState === 'green' ? 'text-emerald-500' : 'text-gray-900'}`}>
+                  {/* Top Floating Status */}
+                  <div className="absolute top-3 sm:top-5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 sm:gap-2 bg-white/95 backdrop-blur-xl rounded-full px-3 sm:px-4 py-1.5 sm:py-2 shadow-sm border border-gray-200 z-20">
+                    {(imageState === 'loading' || showAIProcessing) && <Loader2 size={10} className="animate-spin text-brand" />}
+                    <span className={`text-[8px] sm:text-[10px] uppercase font-bold tracking-widest ${imageState === 'green' ? 'text-emerald-500' : 'text-gray-900'}`}>
                       {imageState === 'base' ? '01. Raw Data' : (imageState === 'loading' || imageState === 'removed' ? '02. Modifying Space' : '03. Render Final')}
                     </span>
                   </div>
 
-                  {/* Chat Layout perfectly spaced */}
-                  <div className="absolute bottom-5 left-5 right-5 flex flex-col gap-2.5 z-20">
+                  {/* Chat bubbles */}
+                  <div className="absolute bottom-3 sm:bottom-5 left-3 sm:left-5 right-3 sm:right-5 flex flex-col gap-1.5 sm:gap-2.5 z-20">
                     {chatSteps.map((step, idx) => (
-                      <div key={idx} className={`animate-fade-in-up text-[13px] font-semibold px-4 py-3 rounded-2xl max-w-[85%] leading-relaxed shadow-sm backdrop-blur-2xl ${step.role === 'user'
+                      <div key={idx} className={`animate-fade-in-up text-[11px] sm:text-[13px] font-semibold px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl max-w-[85%] leading-relaxed shadow-sm backdrop-blur-2xl ${step.role === 'user'
                         ? 'bg-gray-900/90 text-white self-end rounded-br-sm'
                         : `self-start rounded-tl-[4px] border ${imageState === 'green' && idx === chatSteps.length - 1 ? 'bg-emerald-50/95 border-emerald-200 text-emerald-800' : 'bg-white/95 border-gray-100 text-gray-800'}`
                         }`}>
@@ -186,9 +186,9 @@ export default function Hero() {
                     ))}
 
                     {typedText && (
-                      <div className="bg-white/95 backdrop-blur-2xl border border-gray-100 px-5 py-3 rounded-2xl shadow-sm flex items-center animate-fade-in-up self-end max-w-[85%] rounded-br-sm text-[13px] font-semibold text-gray-800">
+                      <div className="bg-white/95 backdrop-blur-2xl border border-gray-100 px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-sm flex items-center animate-fade-in-up self-end max-w-[85%] rounded-br-sm text-[11px] sm:text-[13px] font-semibold text-gray-800">
                         {typedText}
-                        <span className="animate-pulse w-[3px] h-3 bg-gray-900 ml-[3px]" />
+                        <span className="animate-pulse w-[2px] sm:w-[3px] h-3 bg-gray-900 ml-[3px]" />
                       </div>
                     )}
                   </div>
