@@ -116,7 +116,7 @@ export default function Hero() {
 
   return (
     <>
-      <section className="relative min-h-[100dvh] flex items-center justify-center px-5 sm:px-6 overflow-hidden bg-white">
+      <section className="relative min-h-dvh flex items-center justify-center px-5 sm:px-6 overflow-hidden bg-white">
 
         {/* ── Ambient Background ── */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -185,7 +185,7 @@ export default function Hero() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-2.5 py-1 mb-4 sm:mb-6 rounded-full bg-gray-50 border border-gray-200/60 text-gray-500"
+              className="hidden lg:inline-flex items-center gap-2 px-2.5 py-1 mb-4 sm:mb-6 rounded-full bg-gray-50 border border-gray-200/60 text-gray-500"
             >
               <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -196,10 +196,10 @@ export default function Hero() {
 
             {/* Headline */}
             <h1 className="text-[1.8rem] sm:text-[3rem] lg:text-[3.8rem] xl:text-[4.2rem] font-bold tracking-[-0.035em] leading-[1.1] mb-4 sm:mb-5 text-gray-900">
-              Your space,{' '}
+              CorSprite,{' '}
               <span className="relative inline-block">
                 <span className="bg-gradient-to-r from-[#3A7BFF] via-[#8B5CF6] to-[#10B981] bg-clip-text text-transparent">
-                  understood
+                  2D & 3D assistant
                 </span>
                 {/* Underline accent */}
                 <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 200 8" fill="none" preserveAspectRatio="none">
@@ -212,7 +212,7 @@ export default function Hero() {
 
             {/* Subheadline */}
             <p className="text-[12px] sm:text-[16px] text-gray-400 max-w-[380px] leading-relaxed font-medium mb-5 sm:mb-8">
-              Extract structural intelligence from raw scans. Generate CAD-ready floor plans, remodel layouts, and chat with your 3D spaces.
+              Revolutionize your spatial workflows with AI-powered 2D & 3D content creation, editing, and analysis.
             </p>
 
             {/* CTA Row */}
@@ -262,7 +262,7 @@ export default function Hero() {
               opacity: { duration: 0.8, ease: "easeOut" },
               y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
             }}
-            className="flex w-full min-h-[220px] justify-center lg:justify-end perspective-1000 shrink-0 mb-4 sm:mb-0"
+            className="flex w-full min-h-[220px] justify-center lg:justify-end perspective-1000 shrink-0"
           >
             <motion.div
               onMouseMove={handleMouseMove}
