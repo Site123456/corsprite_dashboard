@@ -24,7 +24,7 @@ export default function Hero() {
   const y = useMotionValue(0);
   const mouseXSpring = useSpring(x, { stiffness: 200, damping: 25 });
   const mouseYSpring = useSpring(y, { stiffness: 200, damping: 25 });
-  
+
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["8deg", "-8deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"]);
 
@@ -35,7 +35,7 @@ export default function Hero() {
     x.set(mouseX / rect.width - 0.5);
     y.set(mouseY / rect.height - 0.5);
   };
-  
+
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
@@ -96,15 +96,21 @@ export default function Hero() {
   };
 
   const platformButtons = [
-    { key: 'windows', label: 'Windows', icon: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
-    )},
-    { key: 'ios', label: 'iOS', icon: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
-    )},
-    { key: 'android', label: 'Android', icon: (
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 11.5c0-.3 0-.5-.1-.8l1.7-1-1-1.7-1.7 1c-.5-.4-1.1-.7-1.7-.8V6h-2v2.1c-.6.2-1.2.5-1.7.8l-1.7-1-1 1.7 1.7 1c-.1.3-.1.5-.1.8s0 .5.1.8l-1.7 1 1 1.7 1.7-1c.5.4 1.1.7 1.7.8V18h2v-2.1c.6-.2 1.2-.5 1.7-.8l1.7 1 1-1.7-1.7-1c.1-.3.1-.5.1-.8zm-3.6 2c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM7 2l-1 1 2.6 2.6C6.3 7.1 5 9.1 5 11.5c0 3.6 2.4 6.5 5.7 7.3L7 22l1 1 4-4-4-4-1 1 2.5 2.5c-2.5-.7-4.5-3-4.5-5.9 0-2 1-3.7 2.5-4.8L7 2z" /></svg>
-    )},
+    {
+      key: 'windows', label: 'Windows', icon: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
+      )
+    },
+    {
+      key: 'ios', label: 'iOS', icon: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
+      )
+    },
+    {
+      key: 'android', label: 'Android', icon: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 11.5c0-.3 0-.5-.1-.8l1.7-1-1-1.7-1.7 1c-.5-.4-1.1-.7-1.7-.8V6h-2v2.1c-.6.2-1.2.5-1.7.8l-1.7-1-1 1.7 1.7 1c-.1.3-.1.5-.1.8s0 .5.1.8l-1.7 1 1 1.7 1.7-1c.5.4 1.1.7 1.7.8V18h2v-2.1c.6-.2 1.2-.5 1.7-.8l1.7 1 1-1.7-1.7-1c.1-.3.1-.5.1-.8zm-3.6 2c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zM7 2l-1 1 2.6 2.6C6.3 7.1 5 9.1 5 11.5c0 3.6 2.4 6.5 5.7 7.3L7 22l1 1 4-4-4-4-1 1 2.5 2.5c-2.5-.7-4.5-3-4.5-5.9 0-2 1-3.7 2.5-4.8L7 2z" /></svg>
+      )
+    },
     { key: 'web', label: 'Web', icon: <LayoutDashboard size={12} /> },
   ];
 
@@ -119,7 +125,7 @@ export default function Hero() {
             backgroundImage: 'linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)',
             backgroundSize: '64px 64px'
           }} />
-          
+
           {/* Scanning Beam Effect */}
           <motion.div
             animate={{
@@ -135,15 +141,15 @@ export default function Hero() {
           />
 
           {/* Gradient orbs — very muted */}
-          <div className="absolute top-[-15%] left-[-8%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-blue-200/20 via-purple-100/10 to-transparent blur-[120px]" />
-          <div className="absolute bottom-[-10%] right-[-5%] w-[550px] h-[550px] rounded-full bg-gradient-to-tl from-emerald-200/15 via-cyan-100/10 to-transparent blur-[120px]" />
-          
+          <div className="absolute top-[-15%] left-[-8%] w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] rounded-full bg-gradient-to-br from-blue-200/20 via-purple-100/10 to-transparent blur-[80px] sm:blur-[120px]" />
+          <div className="absolute bottom-[-10%] right-[-5%] w-[300px] sm:w-[550px] h-[300px] sm:h-[550px] rounded-full bg-gradient-to-tl from-emerald-200/15 via-cyan-100/10 to-transparent blur-[80px] sm:blur-[120px]" />
+
           {/* Floating 'Data Points' */}
           {[...Array(6)].map((_, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0 }}
-              animate={{ 
+              animate={{
                 opacity: [0, 0.4, 0],
                 y: [0, 20 * (i % 2 ? 1 : -1), 0],
                 x: [0, 10 * (i % 3 ? 1 : -1), 0]
@@ -166,31 +172,30 @@ export default function Hero() {
         </div>
 
 
-        <div className="relative max-w-[1200px] mx-auto w-full grid lg:grid-cols-[1fr_420px] gap-12 lg:gap-16 items-center py-28 lg:py-0">
+        <div className="relative max-w-[1200px] mx-auto w-full flex flex-col-reverse lg:grid lg:grid-cols-[1fr_420px] gap-8 lg:gap-16 items-center lg:items-center pt-20 pb-8 lg:py-0">
 
-          {/* ═══ Left Column: Copy ═══ */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center text-center lg:items-start lg:text-left max-w-[560px] mx-auto lg:mx-0"
+            className="flex flex-col items-center text-center lg:items-start lg:text-left max-w-[560px] mx-auto lg:mx-0 lg:shrink-0"
           >
             {/* Badge */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 mb-6 rounded-full bg-gray-50 border border-gray-200/60 text-gray-500"
+              className="inline-flex items-center gap-2 px-2.5 py-1 mb-4 sm:mb-6 rounded-full bg-gray-50 border border-gray-200/60 text-gray-500"
             >
-              <span className="relative flex h-2 w-2">
+              <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
               </span>
-              <span className="text-[11px] font-semibold tracking-wide uppercase">Spatial Intelligence</span>
+              <span className="text-[10px] font-semibold tracking-wide uppercase">Spatial Intelligence</span>
             </motion.div>
 
             {/* Headline */}
-            <h1 className="text-[2.5rem] sm:text-[3.2rem] lg:text-[3.8rem] xl:text-[4.2rem] font-bold tracking-[-0.035em] leading-[1.05] mb-5 text-gray-900">
+            <h1 className="text-[1.8rem] sm:text-[3rem] lg:text-[3.8rem] xl:text-[4.2rem] font-bold tracking-[-0.035em] leading-[1.1] mb-4 sm:mb-5 text-gray-900">
               Your space,{' '}
               <span className="relative inline-block">
                 <span className="bg-gradient-to-r from-[#3A7BFF] via-[#8B5CF6] to-[#10B981] bg-clip-text text-transparent">
@@ -206,31 +211,25 @@ export default function Hero() {
             </h1>
 
             {/* Subheadline */}
-            <p className="text-[14px] sm:text-[16px] text-gray-400 max-w-[440px] leading-relaxed font-medium mb-8">
-              Extract structural intelligence from raw scans. Generate CAD-ready floor plans, remodel layouts, and chat with your 3D spaces — all from a single capture.
+            <p className="text-[12px] sm:text-[16px] text-gray-400 max-w-[380px] leading-relaxed font-medium mb-5 sm:mb-8">
+              Extract structural intelligence from raw scans. Generate CAD-ready floor plans, remodel layouts, and chat with your 3D spaces.
             </p>
 
             {/* CTA Row */}
-            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 w-full sm:w-auto">
+            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-2.5 w-full sm:w-auto">
               <button
                 onClick={onOpenRelease}
-                className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-gray-900 text-white text-[13px] font-semibold tracking-[-0.01em] transition-all duration-300 hover:bg-black hover:shadow-xl hover:shadow-gray-900/15 active:scale-[0.97] overflow-hidden"
+                className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-xl bg-gray-900 text-white text-[13px] font-semibold tracking-[-0.01em] transition-all duration-300 hover:bg-black hover:shadow-xl hover:shadow-gray-900/15 active:scale-[0.97] overflow-hidden"
               >
                 {/* shine effect */}
                 <span className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-                {osData.platform === 'windows' && (
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="opacity-70"><path d="M0 3.5l9.9-1.4V12H0zm11-1.6L24 0v12H11zM0 12.5h9.9v9.9L0 21zm11 0h13V24l-13-1.8z" /></svg>
-                )}
-                {osData.platform === 'ios' && (
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="opacity-70"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" /></svg>
-                )}
                 <span className="relative">{osData.name}</span>
                 <ArrowRight size={14} className="relative opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
               </button>
 
               <button
                 onClick={() => setIsOTPModalOpen(true)}
-                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-white border border-gray-200 hover:border-gray-300 text-gray-700 text-[13px] font-semibold transition-all duration-300 hover:shadow-md hover:shadow-gray-100 active:scale-[0.97]"
+                className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white border border-gray-200 hover:border-gray-300 text-gray-700 text-[13px] font-semibold transition-all duration-300 hover:shadow-md hover:shadow-gray-100 active:scale-[0.97]"
               >
                 <KeyRound size={14} className="text-gray-400 group-hover:text-gray-600 transition-colors" />
                 View Space
@@ -253,22 +252,29 @@ export default function Hero() {
               ))}
             </div>
           </motion.div>
-
-          {/* ═══ Right Column: Interactive Demo Card ═══ */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="flex justify-center lg:justify-end perspective-1000"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ 
+              opacity: 1, 
+              y: [0, -6, 0],
+            }}
+            transition={{ 
+              opacity: { duration: 0.8, ease: "easeOut" },
+              y: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+            }}
+            className="flex w-full min-h-[220px] justify-center lg:justify-end perspective-1000 shrink-0 mb-4 sm:mb-0"
           >
             <motion.div
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
-              style={{ rotateX, rotateY }}
-              className="relative w-full max-w-[360px] sm:max-w-[400px] lg:max-w-[420px] aspect-[3/3.6] transform-style-3d cursor-pointer"
+              style={{ 
+                rotateX: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : rotateX, 
+                rotateY: typeof window !== 'undefined' && window.innerWidth < 1024 ? 0 : rotateY 
+              }}
+              className="relative w-full max-w-[260px] sm:max-w-[400px] lg:max-w-[420px] aspect-[4/3.2] sm:aspect-[3/3.6] transform-style-3d cursor-pointer"
             >
               {/* Card shell */}
-              <div className="absolute inset-0 rounded-[1.5rem] overflow-hidden shadow-[0_30px_80px_-15px_rgba(0,0,0,0.15)] border border-gray-200/50 bg-white/60 backdrop-blur-2xl flex flex-col p-1.5 transition-shadow duration-500 hover:shadow-[0_40px_100px_-15px_rgba(0,0,0,0.2)]">
+              <div className="absolute inset-0 rounded-[1.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.05)] bg-white/40 backdrop-blur-xl sm:backdrop-blur-2xl flex flex-col p-1 transition-all duration-500 hover:shadow-[0_40px_100px_-15px_rgba(0,0,0,0.2)]">
 
                 {/* Image Window */}
                 <div className="flex-1 rounded-[1.1rem] bg-gray-100 relative overflow-hidden border border-gray-100/50">
@@ -283,10 +289,10 @@ export default function Hero() {
 
                   {/* Floating Step Indicator */}
                   <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20">
-                    <div className="flex items-center gap-2 bg-white/90 backdrop-blur-xl rounded-full px-3 py-1.5 shadow-sm border border-white/80">
+                    <div className="flex items-center gap-1.5 bg-white/70 backdrop-blur-sm sm:backdrop-blur-md rounded-full px-2.5 py-1 shadow-sm border border-white/50">
                       {(imageState === 'loading' || showAIProcessing) && <Loader2 size={10} className="animate-spin text-brand" />}
                       {imageState === 'green' && <Check size={10} className="text-emerald-500" />}
-                      <span className={`text-[9px] uppercase font-bold tracking-widest ${imageState === 'green' ? 'text-emerald-600' : 'text-gray-600'}`}>
+                      <span className={`text-[8px] sm:text-[9px] uppercase font-bold tracking-widest ${imageState === 'green' ? 'text-emerald-600' : 'text-gray-600'}`}>
                         {imageState === 'base' ? 'Raw scan' : imageState === 'loading' ? 'Processing' : imageState === 'removed' ? 'Objects removed' : 'Render complete'}
                       </span>
                     </div>
@@ -299,16 +305,14 @@ export default function Hero() {
                         key={idx}
                         initial={{ opacity: 0, y: 8, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                        className={`text-[11px] sm:text-[12px] font-medium px-3 py-2 rounded-xl max-w-[82%] leading-relaxed backdrop-blur-xl ${
-                          step.role === 'user'
-                            ? 'bg-gray-900/85 text-white self-end rounded-br-sm shadow-md'
-                            : `self-start rounded-tl-[4px] border shadow-sm ${
-                                imageState === 'green' && idx === chatSteps.length - 1
-                                  ? 'bg-emerald-50/90 border-emerald-200/60 text-emerald-700'
-                                  : 'bg-white/90 border-gray-100/60 text-gray-700'
-                              }`
-                        }`}
+                        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                        className={`text-[10px] sm:text-[12px] font-medium px-2.5 py-1.5 rounded-xl max-w-[85%] leading-tight sm:leading-relaxed backdrop-blur-sm sm:backdrop-blur-md border ${step.role === 'user'
+                          ? 'bg-gray-900/40 text-white self-end rounded-br-sm border-white/10 shadow-lg'
+                          : `self-start rounded-tl-[4px] shadow-sm ${imageState === 'green' && idx === chatSteps.length - 1
+                            ? 'bg-emerald-50/70 border-emerald-200/40 text-emerald-700'
+                            : 'bg-white/50 border-white/40 text-gray-800'
+                          }`
+                          }`}
                       >
                         {step.text}
                       </motion.div>

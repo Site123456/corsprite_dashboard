@@ -137,11 +137,10 @@ export default function Header() {
 
       {/* ── Top Bar ── */}
       <header
-        className={`relative w-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          scrolled
+        className={`relative w-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${scrolled
             ? 'h-[60px] bg-white/70 backdrop-blur-2xl border-b border-gray-200/40 shadow-[0_1px_3px_rgba(0,0,0,0.04)]'
             : 'h-[68px] bg-transparent'
-        }`}
+          }`}
         onMouseLeave={handleMouseLeave}
       >
         <div className="max-w-[1280px] mx-auto h-full flex items-center justify-between px-5 lg:px-8">
@@ -164,11 +163,10 @@ export default function Header() {
                 onMouseEnter={() => handleMouseEnter(key)}
               >
                 <button
-                  className={`relative flex items-center gap-1 text-[13px] font-medium tracking-[-0.01em] px-3.5 py-1.5 rounded-lg transition-all duration-300 ${
-                    activeMenu === key
+                  className={`relative flex items-center gap-1 text-[13px] font-medium tracking-[-0.01em] px-3.5 py-1.5 rounded-lg transition-all duration-300 ${activeMenu === key
                       ? 'text-gray-900 bg-gray-100/70'
                       : 'text-gray-500 hover:text-gray-800'
-                  }`}
+                    }`}
                 >
                   {menu.label}
                   <ChevronDown
@@ -196,14 +194,15 @@ export default function Header() {
           {/* ── Right Actions ── */}
           <div className="flex items-center gap-2 shrink-0 relative z-10">
 
-            {/* Language Switcher — Desktop */}
-            <div className="hidden lg:block relative">
+            {/* Language Switcher */}
+            <div className="relative">
               <button
-                className="flex items-center gap-1.5 text-[12px] font-medium text-gray-400 hover:text-gray-700 px-2.5 py-1.5 rounded-lg transition-colors"
+                className="flex items-center gap-1.5 text-[12px] font-medium text-gray-400 hover:text-gray-700 px-2 py-1.5 rounded-lg transition-colors"
                 onClick={(e) => { e.stopPropagation(); setIsLangOpen(!isLangOpen); setActiveMenu(null); }}
               >
                 <Globe size={13} />
-                {currentLang}
+                <span className="hidden sm:inline">{currentLang}</span>
+                <span className="sm:hidden text-[10px]">{currentLang}</span>
               </button>
               <AnimatePresence>
                 {isLangOpen && (
@@ -212,7 +211,7 @@ export default function Header() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 6, scale: 0.96 }}
                     transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute top-[40px] right-0 w-[140px] bg-white/95 backdrop-blur-2xl border border-gray-100 shadow-lg rounded-xl py-1.5 origin-top-right"
+                    className="absolute top-[40px] right-0 w-[140px] bg-white/95 backdrop-blur-2xl border border-gray-100 shadow-xl rounded-xl py-1.5 origin-top-right z-50"
                     onClick={(e) => e.stopPropagation()}
                   >
                     {languages.map(l => (
@@ -248,13 +247,21 @@ export default function Header() {
               <ArrowRight size={12} className="opacity-60" />
             </button>
 
-            {/* Mobile CTA pill */}
-            <button
-              onClick={onOpenRelease}
-              className="sm:hidden flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-gray-900 text-white text-[11px] font-semibold transition-all"
-            >
-              Get App
-            </button>
+            {/* Mobile Auth Actions */}
+            <div className="lg:hidden flex items-center gap-1">
+              <button
+                onClick={onOpenRelease}
+                className="flex items-center text-[11px] font-semibold text-gray-500 px-2.5 py-1.5 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Log in
+              </button>
+              <button
+                onClick={onOpenRelease}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-900 text-white text-[11px] font-semibold transition-all hover:bg-black active:scale-[0.97]"
+              >
+                Get App
+              </button>
+            </div>
 
             {/* Mobile hamburger */}
             <button
@@ -338,94 +345,95 @@ export default function Header() {
       <AnimatePresence>
         {isMobileOpen && (
           <>
-            {/* Backdrop with intense blur */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-              className="fixed inset-0 top-0 bg-white/40 backdrop-blur-md z-40 lg:hidden"
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-white/20 backdrop-blur-sm z-40 lg:hidden"
               onClick={() => setIsMobileOpen(false)}
             />
 
             {/* Panel */}
             <motion.div
-              initial={{ x: '100%', opacity: 0.5 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: '100%', opacity: 0.5 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed top-0 right-0 bottom-0 w-[85vw] max-w-[380px] bg-white z-50 shadow-[0_0_100px_rgba(0,0,0,0.1)] lg:hidden flex flex-col border-l border-gray-100"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-0 bg-white/85 backdrop-blur-3xl z-50 lg:hidden flex flex-col h-[100dvh]"
             >
               {/* Panel Header */}
-              <div className="flex items-center justify-between px-6 py-6">
-                <motion.img 
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.2 }}
-                  src="/logo/logo.png" 
-                  alt="Corsprite" 
-                  className="h-[32px] object-contain mix-blend-multiply" 
+              <div className="flex items-center justify-between px-6 h-[72px] shrink-0 border-b border-gray-100/50">
+                <motion.img
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                  src="/logo/logo.png"
+                  alt="Corsprite"
+                  className="h-[34px] object-contain mix-blend-multiply"
                 />
                 <motion.button
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setIsMobileOpen(false)}
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 bg-gray-50 hover:bg-gray-100 transition-colors"
+                  className="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-100"
                 >
-                  <X size={18} />
+                  <X size={20} />
                 </motion.button>
               </div>
 
-              {/* Panel Content */}
-              <div className="flex-1 overflow-y-auto px-6 py-2 scrollbar-none">
-                <nav className="space-y-1">
+              {/* Panel Content - Scrollable */}
+              <div className="flex-1 overflow-y-auto px-6 py-8 scrollbar-none space-y-8">
+                <nav className="space-y-2">
                   {Object.entries(megaMenus).map(([key, menu], idx) => (
-                    <motion.div 
+                    <motion.div
                       key={key}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 + idx * 0.05, duration: 0.5 }}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.08, duration: 0.5 }}
+                      className="group"
                     >
                       <button
                         onClick={() => setMobileExpanded(mobileExpanded === key ? null : key)}
-                        className={`w-full flex items-center justify-between py-4 text-[15px] font-semibold tracking-tight transition-colors ${
-                          mobileExpanded === key ? 'text-brand' : 'text-gray-900'
-                        }`}
+                        className={`w-full flex items-center justify-between py-4 text-[18px] font-bold tracking-tight transition-all ${mobileExpanded === key ? 'text-brand' : 'text-gray-900 active:translate-x-1'
+                          }`}
                       >
                         {menu.label}
                         <motion.div
-                          animate={{ rotate: mobileExpanded === key ? 180 : 0 }}
+                          animate={{ rotate: mobileExpanded === key ? 180 : 0, scale: mobileExpanded === key ? 1.1 : 1 }}
                           transition={{ duration: 0.3 }}
+                          className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${mobileExpanded === key ? 'bg-brand/10 text-brand' : 'bg-gray-50 text-gray-400'}`}
                         >
-                          <ChevronDown size={16} className={mobileExpanded === key ? 'text-brand' : 'text-gray-400'} />
+                          <ChevronDown size={18} />
                         </motion.div>
                       </button>
+
                       <AnimatePresence>
                         {mobileExpanded === key && (
                           <motion.div
-                            initial={{ height: 0, opacity: 0, scaleY: 0.95 }}
-                            animate={{ height: 'auto', opacity: 1, scaleY: 1 }}
-                            exit={{ height: 0, opacity: 0, scaleY: 0.95 }}
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                            className="overflow-hidden origin-top"
+                            className="overflow-hidden"
                           >
-                            <div className="pb-4 pl-2 space-y-1">
+                            <div className="pb-6 pt-1 grid grid-cols-1 gap-2">
                               {menu.mainLinks.map((link, lIdx) => (
                                 <motion.a
                                   key={lIdx}
-                                  initial={{ opacity: 0, x: 10 }}
+                                  initial={{ opacity: 0, x: -10 }}
                                   animate={{ opacity: 1, x: 0 }}
-                                  transition={{ delay: lIdx * 0.03 }}
+                                  transition={{ delay: lIdx * 0.04 }}
                                   href="#"
-                                  className="flex items-center gap-4 py-3 px-3 rounded-2xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100 group"
+                                  className="flex items-center gap-4 py-3.5 px-4 rounded-2xl bg-gray-50/50 hover:bg-brand/5 transition-all border border-transparent hover:border-brand/10 group/item"
                                 >
-                                  <div className="w-9 h-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 group-hover:bg-white group-hover:text-brand group-hover:shadow-sm transition-all">
-                                    <link.icon size={15} strokeWidth={1.8} />
+                                  <div className="w-10 h-10 rounded-xl bg-white border border-gray-100 flex items-center justify-center text-gray-400 group-hover/item:text-brand transition-all shadow-sm">
+                                    <link.icon size={18} strokeWidth={1.8} />
                                   </div>
                                   <div className="flex flex-col">
-                                    <span className="text-[13px] font-semibold text-gray-800">
+                                    <span className="text-[14px] font-bold text-gray-800">
                                       {link.title}
                                     </span>
-                                    <span className="text-[10px] text-gray-400 font-medium line-clamp-1">
+                                    <span className="text-[11px] text-gray-400 font-medium line-clamp-1">
                                       {link.desc}
                                     </span>
                                   </div>
@@ -438,58 +446,51 @@ export default function Header() {
                     </motion.div>
                   ))}
 
-                  <motion.div 
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                    className="border-t border-gray-50 mt-4 pt-4 space-y-2"
-                  >
-                    <a href="#pricing" className="block py-3 text-[15px] font-semibold text-gray-900 px-1">Pricing</a>
-                    <a href="#" className="block py-3 text-[15px] font-semibold text-gray-900 px-1">Documentation</a>
-                  </motion.div>
+                  {/* Static Links */}
+                  <div className="pt-4 space-y-1">
+                    <motion.a
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      href="#pricing"
+                      className="block py-4 text-[18px] font-bold text-gray-900 border-b border-gray-50 active:translate-x-1 transition-transform"
+                    >
+                      Pricing
+                    </motion.a>
+                    <motion.a
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.35 }}
+                      href="#"
+                      className="block py-4 text-[18px] font-bold text-gray-900 active:translate-x-1 transition-transform"
+                    >
+                      Documentation
+                    </motion.a>
+                  </div>
                 </nav>
               </div>
 
               {/* Panel Footer */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="px-6 py-8 border-t border-gray-100 bg-gray-50/50 space-y-3"
+                className="px-6 py-6 border-t border-gray-100/60 bg-white/50 shrink-0 space-y-5"
               >
-                <div className="flex flex-col gap-3">
+                <div className="grid grid-cols-2 gap-3">
                   <button
                     onClick={() => { setIsMobileOpen(false); onOpenRelease(); }}
-                    className="w-full py-4 rounded-2xl bg-gray-900 text-white text-[14px] font-bold transition-all hover:bg-black active:scale-[0.98] shadow-lg shadow-gray-900/10"
+                    className="w-full h-11 rounded-xl bg-gray-900 text-white text-[13px] font-bold transition-all hover:bg-black active:scale-[0.98] shadow-lg shadow-gray-900/10 flex items-center justify-center gap-1.5"
                   >
                     Get Started
+                    <ArrowRight size={14} />
                   </button>
                   <button
                     onClick={() => { setIsMobileOpen(false); onOpenRelease(); }}
-                    className="w-full py-4 rounded-2xl bg-white border border-gray-200 text-gray-900 text-[14px] font-bold transition-all hover:bg-gray-50 active:scale-[0.98]"
+                    className="w-full h-11 rounded-xl bg-white border border-gray-200 text-gray-900 text-[13px] font-bold transition-all hover:bg-gray-50 active:scale-[0.98]"
                   >
                     Log in
                   </button>
-                </div>
-
-                {/* Language Selector */}
-                <div className="flex items-center justify-between pt-4">
-                  <span className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Language</span>
-                  <div className="flex items-center gap-1">
-                    {languages.slice(0, 3).map(l => (
-                      <button
-                        key={l.code}
-                        onClick={() => setCurrentLang(l.code)}
-                        className={`text-[12px] font-bold px-3 py-1.5 rounded-xl transition-all ${
-                          currentLang === l.code 
-                            ? 'bg-white text-brand shadow-sm border border-gray-100' 
-                            : 'text-gray-400 hover:text-gray-600'
-                        }`}
-                      >
-                        {l.code}
-                      </button>
-                    ))}
-                  </div>
                 </div>
               </motion.div>
             </motion.div>
